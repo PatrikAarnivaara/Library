@@ -40,4 +40,9 @@ public class Book {
     public void setAvailable(boolean available) {
         this.available = available;
     }
+
+    public void getInfo() {
+        System.out.printf(" Title: %s \n Writer: %s \n Description: %s \n Category: %s \n Available: %b \n\n", title, writer, description, category, available);
+    }
+
 }
