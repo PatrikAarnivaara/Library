@@ -7,7 +7,7 @@ public class Shelf {
     public ArrayList<Book> books = new ArrayList<>();
 
 
-    void createBooksForLibrary(){
+    void createBooksForLibrary() {
         books.add(new Book("The Defenders", "Philip K Dick", "The Defenders is a 1953 science fiction novelette by American author Philip K. Dick.", Category.FICTION, true));
         books.add(new Book("Frankenstein", "Mary Shelley", "When Victor Frankenstein, a brilliant scientist, tries to create life in his laboratory, " + "\n" + " the result is an ugly monster.", Category.FICTION, true));
         books.add(new Book("Dracula", "Bram Stoker", "Count Dracula, the legendary vampire who is Lord of the Undead," + "\n" + " departs from his castle in Transylvania and arrives in London, " + "\n" + " where he begins claiming new victims.", Category.FICTION, true));
@@ -27,7 +27,7 @@ public class Shelf {
         books.add(new Book("The Age of AI", "Jason Thacker", "Alexa, how is AI changing our world? We interact with artificial intelligence, or AI, nearly every moment of the day without knowing it.", Category.SCIENCE, true));
     }
 
-    private void addNewBooks(){
+    private void addNewBooks() {
         //books.add(new Book());
     }
 
@@ -37,7 +37,23 @@ public class Shelf {
         }
     }
 
+    public Book getBook(String title) {
+        for (Book book : books) {
+            if (title.equals(book.getTitle()))
+                return book;
+        }
+        System.out.println("No book with that name in library");
+        return null;
+    }
 
-
-
+    public Book borrowBook(String title) {
+        Book book = getBook(title);
+        if (book.isAvailable()) {
+            book.setAvailable(false);
+            return book;
+        } else {
+            System.out.println("Not available.");
+            return null;
+        }
+    }
 }
