@@ -1,10 +1,12 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Shelf {
 
     public ArrayList<Book> books = new ArrayList<>();
+    Comparator<Book> sortWriters = (book, bookTwo) -> (int) book.getWriter().compareTo(bookTwo.getWriter());
 
 
     void createBooksForLibrary() {
@@ -27,6 +29,7 @@ public class Shelf {
         books.add(new Book("The Age of AI", "Jason Thacker", "Alexa, how is AI changing our world? We interact with artificial intelligence, or AI, nearly every moment of the day without knowing it.", Category.SCIENCE, true));
     }
 
+    //Find, get, borrow and add books
     private void addNewBooks() {
         //books.add(new Book());
     }
@@ -37,6 +40,7 @@ public class Shelf {
         }
     }
 
+    //Check null
     public Book getBook(String title) {
         for (Book book : books) {
             if (title.equals(book.getTitle()))
@@ -46,6 +50,7 @@ public class Shelf {
         return null;
     }
 
+    //Check null
     public Book borrowBook(String title) {
         Book book = getBook(title);
         if (book.isAvailable()) {
@@ -55,5 +60,22 @@ public class Shelf {
             System.out.println("Not available.");
             return null;
         }
+    }
+
+    private void sortWriters(ArrayList<Book> list) {
+        list.sort(sortWriters);
+        showProducts(list);
+    }
+
+    //Return arraylist
+    public Book findWriterByName(String writer) {
+        
+        for (Book book : books) {
+            if (book.getWriter().toLowerCase().contains(writer.toLowerCase())) {
+                return book;
+            }
+        }
+        return null;
+
     }
 }

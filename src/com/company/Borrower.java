@@ -27,13 +27,9 @@ public class Borrower extends Person {
     }
 
     public void showBorrowedBooks(String name){
-        System.out.println("Loaned books by "+name+ ": ");
+        System.out.println("Loaned books by " + name + ": ");
         getBorrowedBooks();
 
     }
 
-    @Override
-    public String toString() {
-        return "Loans{" + loans + '}';
-    }
 }

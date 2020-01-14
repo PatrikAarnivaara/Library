@@ -17,6 +17,8 @@ public class Library {
         mainMenu();
     }
 
+
+    //Menus
     private void mainMenu() {
         while (true) {
 
@@ -68,7 +70,8 @@ public class Library {
             System.out.println("3. Show my loans");
             System.out.println("4. Show all books");
             System.out.println("5. Show available books");
-            System.out.println("6. Return to main menu");
+            System.out.println("6. Find book by writer");
+            System.out.println("7. Return to main menu");
             System.out.println("---------------------");
 
             String option = input.nextLine();
@@ -91,6 +94,8 @@ public class Library {
                     System.out.println("Available books");
                     //showAvailableBooks();
                 case "6":
+                    findWriter();
+                case "7":
                     borrowing = false;
                     break;
                 default:
@@ -147,7 +152,7 @@ public class Library {
         }
     }
 
-    //Verify user
+    //Security
     private void verifyUser() {
         System.out.println("Enter name: ");
         //Search for user
@@ -156,7 +161,7 @@ public class Library {
         System.out.println("Wrong password, try again.");
     }
 
-    //Add borrower
+    //Borrower
     private void addBorrower() {
         System.out.println("Add new borrower: ");
         String name = input.nextLine();
@@ -164,7 +169,7 @@ public class Library {
         borrowers.add(new Borrower(name, idNumber));
     }
 
-    //Get borrower
+
     private Person getBorrower(String name) {
         for (Person borrower : borrowers) {
             if (name.equals(borrower.getName())) {
@@ -174,7 +179,7 @@ public class Library {
         return null;
     }
 
-    //Borrow book
+    //Borrow books
     private void borrowBook() {
         System.out.println("Enter name of book to loan");
         String nameOfBook = input.nextLine();
@@ -184,7 +189,7 @@ public class Library {
 
     }
 
-    private void addBookToBorrower(Book book){
+    private void addBookToBorrower(Book book) {
         System.out.println("Enter your name: ");
         String nameOfBorrower = input.nextLine();
         Borrower borrower = (Borrower) getBorrower(nameOfBorrower);
@@ -192,7 +197,7 @@ public class Library {
         borrower.addLoan(book);
     }
 
-    private void showBorrowerLoans(){
+    private void showBorrowerLoans() {
         System.out.println("Enter your name: ");
         String nameOfBorrower = input.nextLine();
         Borrower borrower = (Borrower) getBorrower(nameOfBorrower);
@@ -200,6 +205,18 @@ public class Library {
         borrower.showBorrowedBooks(nameOfBorrower);
     }
 
-    //private Book findMyLoans()*/
+    private void findWriter() {
+        System.out.println("Name of writer: ");
+        try {
+            String writer = input.nextLine();
+            Book book = shelf.findWriterByName(writer);
+            if (book != null) {
+                book.getInfo();
+            }
+        } catch (Exception e) {
+            System.out.println("Try again, only characters.");
+        }
+
+    }
 
 }
