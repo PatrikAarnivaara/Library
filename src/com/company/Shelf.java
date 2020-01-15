@@ -7,6 +7,7 @@ public class Shelf {
 
     public ArrayList<Book> books = new ArrayList<>();
     Comparator<Book> sortWriters = (book, bookTwo) -> (int) book.getWriter().compareTo(bookTwo.getWriter());
+    Comparator<Book> sortBookTitles = (book, bookTwo) -> (int) book.getTitle().compareTo(bookTwo.getTitle());
 
 
     void createBooksForLibrary() {
@@ -42,40 +43,65 @@ public class Shelf {
 
     //Check null
     public Book getBook(String title) {
-        for (Book book : books) {
-            if (title.equals(book.getTitle()))
-                return book;
+        try {
+            for (Book book : books) {
+                if (title.equals(book.getTitle()))
+                    return book;
+            }
+        } catch (NullPointerException e) {
+            System.out.println("No book with that name in library");
         }
-        System.out.println("No book with that name in library");
         return null;
     }
 
     //Check null
     public Book borrowBook(String title) {
         Book book = getBook(title);
-        if (book.isAvailable()) {
-            book.setAvailable(false);
-            return book;
-        } else {
-            System.out.println("Not available.");
-            return null;
-        }
-    }
-
-    private void sortWriters(ArrayList<Book> list) {
-        list.sort(sortWriters);
-        showProducts(list);
-    }
-
-    //Return arraylist
-    public Book findWriterByName(String writer) {
-        
-        for (Book book : books) {
-            if (book.getWriter().toLowerCase().contains(writer.toLowerCase())) {
+        try {
+            if (book.isAvailable()) {
+                book.setAvailable(false);
                 return book;
             }
+        } catch (NullPointerException e) {
+            System.out.println("Not available.");
         }
+        return null;
+    }
+
+    private ArrayList<Book> sortWriters(ArrayList<Book> list) {
+        list.sort(sortWriters);
+        return list;
+    }
+
+    private ArrayList<Book> sortBookTitle(ArrayList<Book> list) {
+        list.sort(sortBookTitles);
+        return list;
+    }
+
+    public Book findWriterByName(String name) {
+        ArrayList<Book> writers = sortWriters(books);
+        for (Book writer : writers) {
+            if (writer.getWriter().toLowerCase().contains(name.toLowerCase())) {
+                return writer;
+            }
+        }
+        System.out.println("No writer with that name in library catalogue.");
         return null;
 
     }
+
+
+    public Book findTitleByName(String name) {
+        ArrayList<Book> titles = sortBookTitle(books);
+        for (Book title : titles) {
+            if (title.getTitle().toLowerCase().contains(name.toLowerCase())) {
+                return title;
+            }
+        }
+        System.out.println("No book with that title in library catalogue.");
+        return null;
+
+    }
+
+
 }
