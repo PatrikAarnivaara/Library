@@ -5,16 +5,22 @@ import java.util.Scanner;
 
 public class Library {
 
-    Scanner scanner = new Scanner(System.in);
+    Scanner input = new Scanner(System.in);
     private ArrayList<Person> borrowers = new ArrayList<>();
     Shelf shelf = new Shelf();
+    User user = new User();
 
     public Library() {
         shelf.createBooksForLibrary();
     }
 
     public void start() {
+        mainMenu();
+    }
 
+
+    //Menus
+    private void mainMenu() {
         while (true) {
 
             System.out.println("--- Main menu ---");
@@ -25,7 +31,7 @@ public class Library {
             System.out.println("5. Exit");
             System.out.println("-----------------");
 
-            String option = scanner.nextLine();
+            String option = input.nextLine();
 
             switch (option) {
                 case "1":
@@ -37,6 +43,7 @@ public class Library {
                     adminMenu();
                     break;
                 case "3":
+                    addBorrower();
                     //Create account
                     break;
                 case "4":
@@ -64,32 +71,36 @@ public class Library {
             System.out.println("3. Show my loans");
             System.out.println("4. Show all books");
             System.out.println("5. Show available books");
-            System.out.println("6. Return to main menu");
-            System.out.println("---------------------");
+            System.out.println("6. Find book by writer");
+            System.out.println("7. Find book by title");
+            System.out.println("8. Return to main menu");
+            System.out.println("----------------------");
 
-            String option = scanner.nextLine();
+            String option = input.nextLine();
 
             switch (option) {
                 case "1":
-                    System.out.println("Title of book");
-                    //findBook, check if available.
-                    //borrowBook (add book to list of borrower.
+                    borrowBook();
                     break;
                 case "2":
-                    System.out.println("Which book to return: ");
-                    //findLoanedBookBorrower, search list and add to Library list.
+                    returnLibraryItem();
                     break;
                 case "3":
-                    System.out.println("Show loaned books");
-                    //showBooks in borrower array
+                    showBorrowerLoans();
                     break;
                 case "4":
-                    System.out.println("Show all books in library");
+                    shelf.showAllBooks();
                     break;
                 case "5":
-                    System.out.println("Available books");
-                    //showAvailableBooks();
+                    shelf.showAvailableBooks();
+                    break;
                 case "6":
+                    findWriter();
+                    break;
+                case "7":
+                    findTitle();
+                    break;
+                case "8":
                     borrowing = false;
                     break;
                 default:
@@ -98,7 +109,6 @@ public class Library {
             }
         }
     }
-
 
 
     private void adminMenu() {
@@ -117,7 +127,7 @@ public class Library {
             System.out.println("7. Return to main menu");
             System.out.println("--------------------------");
 
-            String option = scanner.nextLine();
+            String option = input.nextLine();
 
             switch (option) {
                 case "1":
@@ -147,15 +157,116 @@ public class Library {
         }
     }
 
-
-
-
-        private void verifyUser(){
+    //Security
+    private void verifyUser() {
         System.out.println("Enter name: ");
         //Search for user
         System.out.println("Enter password: ");
         //Check that password is correct?
         System.out.println("Wrong password, try again.");
+    }
+
+    //Borrower
+    private void addBorrower() {
+        System.out.println("Admin or borrower?");
+        //Add function, create new Admin
+        System.out.println("Name: ");
+        String name = input.nextLine();
+        //Check id-number
+        System.out.println("Id number: ");
+        String idNumber = input.nextLine();
+        System.out.println("Your account is registered.");
+        borrowers.add(new Borrower(name, idNumber));
+    }
+
+
+    private Person getBorrower(String name) {
+        for (Person borrower : borrowers) {
+            if (name.equals(borrower.getName())) {
+                return borrower;
+            }
         }
+        return null;
+    }
+
+    //Borrow books
+    private void borrowBook() {
+        System.out.println("Enter name of book to loan");
+        String nameOfBook = input.nextLine();
+        Book book = shelf.borrowBook(nameOfBook);
+        if (book != null) {
+            addBookToBorrower(book);
+        } else {
+            System.out.println("Try another title.");
+        }
+
+    }
+
+    private void addBookToBorrower(Book book) {
+        System.out.println("Enter your name: ");
+        String nameOfBorrower = input.nextLine();
+        Borrower borrower = (Borrower) getBorrower(nameOfBorrower);
+        if (borrower != null) {
+            borrower.addLoan(book);
+        } else {
+            System.out.println("No user with that name.");
+        }
+
+    }
+
+    private void showBorrowerLoans() {
+        System.out.println("Enter your name: ");
+        String nameOfBorrower = input.nextLine();
+        Borrower borrower = (Borrower) getBorrower(nameOfBorrower);
+        if (borrower != null) {
+            borrower.showBorrowedBooks(nameOfBorrower);
+        } else {
+            System.out.println("No user with that name.");
+        }
+    }
+
+    private void returnLibraryItem() {
+        System.out.println("Name of member.");
+        String nameOfBorrower = input.nextLine();
+        Borrower borrower = (Borrower) getBorrower(nameOfBorrower);
+        if (borrower != null) {
+            System.out.println("Return book");
+            String itemToReturn = input.nextLine();
+            Book returnBook = borrower.returnBook(itemToReturn);
+            borrower.removeLoan(returnBook);
+        } else {
+            System.out.println("No member with that name.");
+        }
+    }
+
+
+    private void findWriter() {
+        System.out.println("Name of writer: ");
+        try {
+            String writer = input.nextLine();
+            Book book = shelf.findWriterByName(writer);
+            if (book != null) {
+                book.getInfo();
+            }
+        } catch (Exception e) {
+            System.out.println("Try again, only characters.");
+        }
+
+    }
+
+    private void findTitle() {
+        System.out.println("Title of book: ");
+        try {
+            String title = input.nextLine();
+            Book book = shelf.findTitleByName(title);
+            if (book != null) {
+                book.getInfo();
+            }
+        } catch (Exception e) {
+            System.out.println("Try again, only characters.");
+        }
+
+    }
+
 
 }
