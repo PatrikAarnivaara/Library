@@ -1,6 +1,8 @@
 package com.company;
 
-public abstract class Person {
+import java.io.Serializable;
+
+public abstract class Person implements Serializable {
 
     private String name;
     private String idNumber;
@@ -8,10 +10,6 @@ public abstract class Person {
     public Person(String name, String idNumber) {
         this.name = name;
         this.idNumber = idNumber;
-    }
-
-    public Person() {
-
     }
 
     public String getName() {

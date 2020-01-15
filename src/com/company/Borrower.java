@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Borrower extends Person {
 
-    ArrayList<Book> loans = new ArrayList<>();
+    ArrayList<Book> loans = new ArrayList<>(); //(ArrayList<Book>) FileUtility.loadObject("loans.ser");
 
     public Borrower(String name, String idNumber) {
         super(name, idNumber);
@@ -16,6 +16,7 @@ public class Borrower extends Person {
 
     public void removeLoan(Book book) {
         loans.remove(book);
+        //FileUtility.saveObject("loans.ser", loans);
     }
 
     public void getBorrowedBooks() {

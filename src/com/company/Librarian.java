@@ -1,8 +1,8 @@
 package com.company;
 
-public class Admin extends Person {
+public class Librarian extends Person {
 
-    public Admin(String name, String idNumber) {
+    public Librarian(String name, String idNumber) {
         super(name, idNumber);
     }
 

@@ -1,18 +1,17 @@
 package com.company;
 
+import java.io.Serializable;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Library {
+public class Library implements Serializable {
 
     Scanner input = new Scanner(System.in);
-    private ArrayList<Person> borrowers = new ArrayList<>();
+    private ArrayList<Person> borrowers = (ArrayList<Person>) FileUtility.loadObject("borrowers.ser");
+    private ArrayList<Person> librarians = (ArrayList<Person>) FileUtility.loadObject("librarians.ser");
     Shelf shelf = new Shelf();
     User user = new User();
-
-    public Library() {
-        shelf.createBooksForLibrary();
-    }
 
     public void start() {
         mainMenu();
@@ -43,13 +42,15 @@ public class Library {
                     adminMenu();
                     break;
                 case "3":
-                    addBorrower();
-                    //Create account
+                    createAccount();
                     break;
                 case "4":
                     shelf.showAllBooks();
                     break;
                 case "5":
+                    FileUtility.saveObject("borrowers.ser", borrowers);
+                    FileUtility.saveObject("librarians.ser", librarians);
+                    FileUtility.saveObject("books.ser", shelf.books);
                     System.exit(0);
                     break;
                 default:
@@ -132,6 +133,7 @@ public class Library {
             switch (option) {
                 case "1":
                     System.out.println("Input info for new book:");
+                    addBookToLibrary();
                     break;
                 case "2":
                     System.out.println("Remove book, input title.");
@@ -140,7 +142,7 @@ public class Library {
                     System.out.println("Borrowed books:");
                     break;
                 case "4":
-                    System.out.println("Borrowers:");
+                    showAllBorrowers();
                     break;
                 case "5":
                     System.out.println("Input id number:");
@@ -157,6 +159,9 @@ public class Library {
         }
     }
 
+
+
+
     //Security
     private void verifyUser() {
         System.out.println("Enter name: ");
@@ -167,16 +172,39 @@ public class Library {
     }
 
     //Borrower
-    private void addBorrower() {
-        System.out.println("Admin or borrower?");
-        //Add function, create new Admin
-        System.out.println("Name: ");
-        String name = input.nextLine();
-        //Check id-number
-        System.out.println("Id number: ");
-        String idNumber = input.nextLine();
-        System.out.println("Your account is registered.");
-        borrowers.add(new Borrower(name, idNumber));
+    private void createAccount() {
+        System.out.println("1. Librarian");
+        System.out.println("2. Borrower");
+        String userType = input.nextLine();
+        registerUser(userType);
+    }
+
+    private void registerUser(String userType) {
+        if (userType.equals("1")) {
+            System.out.println("Name: ");
+            String name = input.nextLine();
+            System.out.println("Id number: ");
+            //Regex
+            String idNumber = input.nextLine();
+            librarians.add(new Librarian(name, idNumber));
+            System.out.println("Your Librarian account is registered.");
+        } else if (userType.equals("2")) {
+            System.out.println("Name: ");
+            String name = input.nextLine();
+            System.out.println("Id number: ");
+            //Regex
+            String idNumber = input.nextLine();
+            borrowers.add(new Borrower(name, idNumber));
+            System.out.println("Your borrower account is registered.");
+        } else {
+            System.out.println("Something went wrong.");
+        }
+    }
+
+    private void showAllBorrowers() {
+        for (Person borrower: borrowers) {
+            System.out.println(borrower);
+        }
     }
 
 
@@ -226,7 +254,7 @@ public class Library {
     }
 
     private void returnLibraryItem() {
-        System.out.println("Name of member.");
+        System.out.println("Name of borrower.");
         String nameOfBorrower = input.nextLine();
         Borrower borrower = (Borrower) getBorrower(nameOfBorrower);
         if (borrower != null) {
@@ -234,8 +262,9 @@ public class Library {
             String itemToReturn = input.nextLine();
             Book returnBook = borrower.returnBook(itemToReturn);
             borrower.removeLoan(returnBook);
+            System.out.printf("Book: %s returned.\n", itemToReturn);
         } else {
-            System.out.println("No member with that name.");
+            System.out.println("No borrower with that name.");
         }
     }
 
@@ -268,5 +297,8 @@ public class Library {
 
     }
 
+    private void addBookToLibrary() {
+
+    }
 
 }

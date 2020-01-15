@@ -1,14 +1,21 @@
 package com.company;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class Shelf {
+public class Shelf implements Serializable {
 
-    public ArrayList<Book> books = new ArrayList<>();
+    public ArrayList<Book> books = new ArrayList<>();//(ArrayList<Book>) FileUtility.loadObject("books.ser");
     Comparator<Book> sortWriters = (book, bookTwo) -> (int) book.getWriter().compareTo(bookTwo.getWriter());
     Comparator<Book> sortBookTitles = (book, bookTwo) -> (int) book.getTitle().compareTo(bookTwo.getTitle());
 
+
+    public Shelf() {
+        createBooksForLibrary();
+        //FileUtility.saveObject("books.ser", books);
+        //List<Book> books =  (List<Book>) FileUtility.loadObject("books.ser");
+    }
 
     void createBooksForLibrary() {
         books.add(new Book("The Defenders", "Philip K Dick", "The Defenders is a 1953 science fiction novelette by American author Philip K. Dick.", Category.FICTION, true));
@@ -31,8 +38,8 @@ public class Shelf {
     }
 
     //Find, get, borrow and add books
-    private void addNewBooks() {
-        //books.add(new Book());
+    private void addNewBooks(String title, String writer, String description, Category category, boolean status) {
+        books.add(new Book(title, writer, description, category, status));
     }
 
     void showAllBooks() {
@@ -41,10 +48,10 @@ public class Shelf {
         }
     }
 
-    void showAvailableBooks(){
+    void showAvailableBooks() {
         for (Book book : books) {
-            if(book.isAvailable())
-            book.getInfo();
+            if (book.isAvailable())
+                book.getInfo();
         }
     }
 
@@ -67,6 +74,7 @@ public class Shelf {
         try {
             if (book.isAvailable()) {
                 book.setAvailable(false);
+                FileUtility.saveObject("books.ser", books);
                 return book;
             }
         } catch (NullPointerException e) {
