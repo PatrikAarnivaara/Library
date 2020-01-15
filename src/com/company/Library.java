@@ -83,18 +83,16 @@ public class Library {
                     borrowBook();
                     break;
                 case "2":
-                    System.out.println("Which book to return: ");
-                    //findLoanedBookBorrower, search list and add to Library list.
+                    returnLibraryItem();
                     break;
                 case "3":
                     showBorrowerLoans();
                     break;
                 case "4":
-                    System.out.println("Show all books in library");
+                    shelf.showAllBooks();
                     break;
                 case "5":
-                    System.out.println("Available books");
-                    //showAvailableBooks();
+                    shelf.showAvailableBooks();
                     break;
                 case "6":
                     findWriter();
@@ -170,6 +168,8 @@ public class Library {
 
     //Borrower
     private void addBorrower() {
+        System.out.println("Admin or borrower?");
+        //Add function, create new Admin
         System.out.println("Name: ");
         String name = input.nextLine();
         //Check id-number
@@ -220,11 +220,25 @@ public class Library {
         Borrower borrower = (Borrower) getBorrower(nameOfBorrower);
         if (borrower != null) {
             borrower.showBorrowedBooks(nameOfBorrower);
-        }
-        else {
+        } else {
             System.out.println("No user with that name.");
         }
     }
+
+    private void returnLibraryItem() {
+        System.out.println("Name of member.");
+        String nameOfBorrower = input.nextLine();
+        Borrower borrower = (Borrower) getBorrower(nameOfBorrower);
+        if (borrower != null) {
+            System.out.println("Return book");
+            String itemToReturn = input.nextLine();
+            Book returnBook = borrower.returnBook(itemToReturn);
+            borrower.removeLoan(returnBook);
+        } else {
+            System.out.println("No member with that name.");
+        }
+    }
+
 
     private void findWriter() {
         System.out.println("Name of writer: ");

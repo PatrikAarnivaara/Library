@@ -41,6 +41,13 @@ public class Shelf {
         }
     }
 
+    void showAvailableBooks(){
+        for (Book book : books) {
+            if(book.isAvailable())
+            book.getInfo();
+        }
+    }
+
     //Check null
     public Book getBook(String title) {
         try {
@@ -67,6 +74,7 @@ public class Shelf {
         }
         return null;
     }
+
 
     private ArrayList<Book> sortWriters(ArrayList<Book> list) {
         list.sort(sortWriters);

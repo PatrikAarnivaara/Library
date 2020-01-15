@@ -10,26 +10,40 @@ public class Borrower extends Person {
         super(name, idNumber);
     }
 
-    public void addLoan(Book book){
+    public void addLoan(Book book) {
         loans.add(book);
     }
 
-    public void getBorrowedBooks(){
-        if(loans.size() > 0) {
+    public void removeLoan(Book book) {
+        loans.remove(book);
+    }
+
+    public void getBorrowedBooks() {
+        if (loans.size() > 0) {
             for (Book loan : loans) {
                 System.out.println("Book title: " + loan.getTitle());
             }
-        }
-        else{
+        } else {
             System.out.println("You currently do not have any loaned books.");
         }
         System.out.println(" ");
     }
 
-    public void showBorrowedBooks(String name){
+    public void showBorrowedBooks(String name) {
         System.out.println("Loaned books by " + name + ": ");
         getBorrowedBooks();
 
+    }
+
+    public Book returnBook(String name) {
+
+        for (Book book : loans) {
+            if (name.equals(book.getTitle())) {
+                book.setAvailable(true);
+                return book;
+            }
+        }
+        return null;
     }
 
 }
