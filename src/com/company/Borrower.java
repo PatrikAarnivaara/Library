@@ -1,10 +1,11 @@
 package com.company;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Borrower extends Person {
+public class Borrower extends Person implements Serializable {
 
-    ArrayList<Book> loans = new ArrayList<>();
+    ArrayList<Book> loans = (ArrayList<Book>) FileUtility.loadObject("loans.ser");
 
     public Borrower(String name, String idNumber) {
         super(name, idNumber);
@@ -12,10 +13,18 @@ public class Borrower extends Person {
 
     public void addLoan(Book book) {
         loans.add(book);
+        FileUtility.saveObject("loans.ser", loans);
     }
 
-    public void removeLoan(Book book) {
-        loans.remove(book);
+    private int getIndexOfBook(String title) {
+        for (Book book : loans) {
+            if (book.getTitle().equals(title)) {
+                book.setAvailable(true);
+                FileUtility.saveObject("loans.ser", loans);
+                return loans.indexOf(book);
+            }
+        }
+        return 0;
     }
 
     public void getBorrowedBooks() {
@@ -35,15 +44,21 @@ public class Borrower extends Person {
 
     }
 
-    public Book returnBook(String name) {
-
-        for (Book book : loans) {
-            if (name.equals(book.getTitle())) {
-                book.setAvailable(true);
-                return book;
-            }
+    public void returnBook(String name) {
+        try {
+            int indexBookRemove = getIndexOfBook(name);
+            loans.remove(indexBookRemove);
+            FileUtility.saveObject("loans.ser", loans);
+            System.out.println("Book returned.");
+        } catch (Exception e) {
+            System.out.println("Try again, no book with that title in your account.");
         }
-        return null;
+
+    }
+
+    @Override
+    public void getInfo() {
+        System.out.printf("Name: %s\nId number: %s\n\n", getName(), getIdNumber());
     }
 
 }
