@@ -163,6 +163,7 @@ public class Library implements Serializable {
     private void verifyUser() {
         System.out.println("Enter name: ");
         //Search for user
+        //Instance of librarian can change meny
         System.out.println("Enter password: ");
         //Check that password is correct?
         System.out.println("Wrong password, try again.");
@@ -171,7 +172,6 @@ public class Library implements Serializable {
     private boolean validateIdNumber(String idNumber) {
         String regex = "^(19|20)?[0-9]{6}[- ]?[0-9]{4}$";
         return Pattern.matches(regex, idNumber);
-
     }
 
 
@@ -195,21 +195,18 @@ public class Library implements Serializable {
 
     //Borrower
     private void registerBorrower() {
-        //First name and surname
         System.out.println("Name: ");
         String name = input.nextLine();
-        System.out.println("Id number: YYMMDD-XXXX");
-        String idNumber = input.nextLine();
 
         boolean validate = true;
 
         while (validate) {
+            System.out.println("Id number: YYMMDDXXXX");
+            String idNumber = input.nextLine();
             if (validateIdNumber(idNumber)) {
                 borrowers.add(new Borrower(name, idNumber));
                 validate = false;
                 System.out.println("Your borrower account is registered.");
-            } else {
-                System.out.println("Id-number format YYMMDD-XXXX");
             }
         }
     }
@@ -299,11 +296,18 @@ public class Library implements Serializable {
     private void registerLibrarian() {
         System.out.println("Name: ");
         String name = input.nextLine();
-        System.out.println("Id number: ");
-        //Regex
-        String idNumber = input.nextLine();
-        librarians.add(new Librarian(name, idNumber));
-        System.out.println("Your Librarian account is registered.");
+
+        boolean validate = true;
+
+        while (validate) {
+            System.out.println("Id number: YYMMDDXXXX");
+            String idNumber = input.nextLine();
+            if (validateIdNumber(idNumber)) {
+                librarians.add(new Librarian(name, idNumber));
+                validate = false;
+                System.out.println("Your Librarian account is registered.");
+            }
+        }
     }
 
     private void showAllBorrowers() {
