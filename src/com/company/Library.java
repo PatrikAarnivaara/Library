@@ -1,18 +1,17 @@
 package com.company;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
-public class Library {
+public class Library implements Serializable {
 
     Scanner input = new Scanner(System.in);
-    private ArrayList<Person> borrowers = new ArrayList<>();
+    private ArrayList<Person> borrowers = (ArrayList<Person>) FileUtility.loadObject("borrowers.ser");
+    private ArrayList<Person> librarians = (ArrayList<Person>) FileUtility.loadObject("librarians.ser");
     Shelf shelf = new Shelf();
     User user = new User();
-
-    public Library() {
-        shelf.createBooksForLibrary();
-    }
 
     public void start() {
         mainMenu();
@@ -25,7 +24,7 @@ public class Library {
 
             System.out.println("--- Main menu ---");
             System.out.println("1. Borrower");
-            System.out.println("2. Administrator");
+            System.out.println("2. Librarian");
             System.out.println("3. Create account");
             System.out.println("4. Show books");
             System.out.println("5. Exit");
@@ -40,16 +39,18 @@ public class Library {
                     break;
                 case "2":
                     //Verify admin here
-                    adminMenu();
+                    librarianMenu();
                     break;
                 case "3":
-                    addBorrower();
-                    //Create account
+                    createAccount();
                     break;
                 case "4":
                     shelf.showAllBooks();
                     break;
                 case "5":
+                    FileUtility.saveObject("borrowers.ser", borrowers);
+                    FileUtility.saveObject("librarians.ser", librarians);
+                    FileUtility.saveObject("books.ser", shelf.books);
                     System.exit(0);
                     break;
                 default:
@@ -111,7 +112,7 @@ public class Library {
     }
 
 
-    private void adminMenu() {
+    private void librarianMenu() {
 
         boolean administrating = true;
 
@@ -131,16 +132,16 @@ public class Library {
 
             switch (option) {
                 case "1":
-                    System.out.println("Input info for new book:");
+                    addBookToLibrary();
                     break;
                 case "2":
                     System.out.println("Remove book, input title.");
                     break;
                 case "3":
-                    System.out.println("Borrowed books:");
+                    shelf.showBorrowedBooks();
                     break;
                 case "4":
-                    System.out.println("Borrowers:");
+                    showAllBorrowers();
                     break;
                 case "5":
                     System.out.println("Input id number:");
@@ -157,45 +158,68 @@ public class Library {
         }
     }
 
+
     //Security
     private void verifyUser() {
         System.out.println("Enter name: ");
         //Search for user
+        //Instance of librarian can change meny
         System.out.println("Enter password: ");
         //Check that password is correct?
         System.out.println("Wrong password, try again.");
     }
 
+    private boolean validateIdNumber(String idNumber) {
+        String regex = "^(19|20)?[0-9]{6}[- ]?[0-9]{4}$";
+        return Pattern.matches(regex, idNumber);
+    }
+
+
+    //User
+    private void createAccount() {
+        System.out.println("1. Borrower");
+        System.out.println("2. Librarian");
+        String userType = input.nextLine();
+        registerUser(userType);
+    }
+
+    private void registerUser(String userType) {
+        if (userType.equals("1")) {
+            registerBorrower();
+        } else if (userType.equals("2")) {
+            registerLibrarian();
+        } else {
+            System.out.println("Input 1 or 2.");
+        }
+    }
+
     //Borrower
-    private void addBorrower() {
-        System.out.println("Admin or borrower?");
-        //Add function, create new Admin
+    private void registerBorrower() {
         System.out.println("Name: ");
         String name = input.nextLine();
-        //Check id-number
-        System.out.println("Id number: ");
-        String idNumber = input.nextLine();
-        System.out.println("Your account is registered.");
-        borrowers.add(new Borrower(name, idNumber));
-    }
 
+        boolean validate = true;
 
-    private Person getBorrower(String name) {
-        for (Person borrower : borrowers) {
-            if (name.equals(borrower.getName())) {
-                return borrower;
+        while (validate) {
+            System.out.println("Id number: YYMMDDXXXX");
+            String idNumber = input.nextLine();
+            if (validateIdNumber(idNumber)) {
+                borrowers.add(new Borrower(name, idNumber));
+                validate = false;
+                System.out.println("Your borrower account is registered.");
             }
         }
-        return null;
     }
 
-    //Borrow books
+
     private void borrowBook() {
         System.out.println("Enter name of book to loan");
         String nameOfBook = input.nextLine();
         Book book = shelf.borrowBook(nameOfBook);
         if (book != null) {
             addBookToBorrower(book);
+            FileUtility.saveObject("books.ser", shelf.books);
+            System.out.printf("Book: %s loaned.\n", book.getTitle());
         } else {
             System.out.println("Try another title.");
         }
@@ -207,6 +231,7 @@ public class Library {
         String nameOfBorrower = input.nextLine();
         Borrower borrower = (Borrower) getBorrower(nameOfBorrower);
         if (borrower != null) {
+            FileUtility.saveObject("books.ser", shelf.books);
             borrower.addLoan(book);
         } else {
             System.out.println("No user with that name.");
@@ -226,16 +251,15 @@ public class Library {
     }
 
     private void returnLibraryItem() {
-        System.out.println("Name of member.");
+        System.out.println("Name of borrower.");
         String nameOfBorrower = input.nextLine();
         Borrower borrower = (Borrower) getBorrower(nameOfBorrower);
         if (borrower != null) {
             System.out.println("Return book");
             String itemToReturn = input.nextLine();
-            Book returnBook = borrower.returnBook(itemToReturn);
-            borrower.removeLoan(returnBook);
+            borrower.returnBook(itemToReturn);
         } else {
-            System.out.println("No member with that name.");
+            System.out.println("No borrower with that name.");
         }
     }
 
@@ -268,5 +292,48 @@ public class Library {
 
     }
 
+    //Librarian
+    private void registerLibrarian() {
+        System.out.println("Name: ");
+        String name = input.nextLine();
+
+        boolean validate = true;
+
+        while (validate) {
+            System.out.println("Id number: YYMMDDXXXX");
+            String idNumber = input.nextLine();
+            if (validateIdNumber(idNumber)) {
+                librarians.add(new Librarian(name, idNumber));
+                validate = false;
+                System.out.println("Your Librarian account is registered.");
+            }
+        }
+    }
+
+    private void showAllBorrowers() {
+
+        for (Person borrower : borrowers) {
+            if (borrower != null) {
+                borrower.getInfo();
+            } else {
+                System.out.println("No borrowers registered.");
+            }
+        }
+
+    }
+
+    private Person getBorrower(String name) {
+        for (Person borrower : borrowers) {
+            if (name.equals(borrower.getName())) {
+                return borrower;
+            }
+        }
+        System.out.println("No borrowers registered.");
+        return null;
+    }
+
+    private void addBookToLibrary() {
+
+    }
 
 }
