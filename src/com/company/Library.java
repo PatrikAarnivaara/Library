@@ -224,6 +224,8 @@ public class Library implements Serializable {
         Book book = shelf.borrowBook(nameOfBook);
         if (book != null) {
             addBookToBorrower(book);
+            FileUtility.saveObject("books.ser", shelf.books);
+            System.out.printf("Book: %s loaned.\n", book.getTitle());
         } else {
             System.out.println("Try another title.");
         }
@@ -235,6 +237,7 @@ public class Library implements Serializable {
         String nameOfBorrower = input.nextLine();
         Borrower borrower = (Borrower) getBorrower(nameOfBorrower);
         if (borrower != null) {
+            FileUtility.saveObject("books.ser", shelf.books);
             borrower.addLoan(book);
         } else {
             System.out.println("No user with that name.");
@@ -260,9 +263,7 @@ public class Library implements Serializable {
         if (borrower != null) {
             System.out.println("Return book");
             String itemToReturn = input.nextLine();
-            Book returnBook = borrower.returnBook(itemToReturn);
-            borrower.removeLoan(returnBook);
-            System.out.printf("Book: %s returned.\n", itemToReturn);
+            borrower.returnBook(itemToReturn);
         } else {
             System.out.println("No borrower with that name.");
         }

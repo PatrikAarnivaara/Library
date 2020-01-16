@@ -6,15 +6,13 @@ import java.util.Comparator;
 
 public class Shelf implements Serializable {
 
-    public ArrayList<Book> books = new ArrayList<>();//(ArrayList<Book>) FileUtility.loadObject("books.ser");
+    public ArrayList<Book> books = (ArrayList<Book>) FileUtility.loadObject("books.ser");
     Comparator<Book> sortWriters = (book, bookTwo) -> (int) book.getWriter().compareTo(bookTwo.getWriter());
     Comparator<Book> sortBookTitles = (book, bookTwo) -> (int) book.getTitle().compareTo(bookTwo.getTitle());
 
 
     public Shelf() {
-        createBooksForLibrary();
-        //FileUtility.saveObject("books.ser", books);
-        //List<Book> books =  (List<Book>) FileUtility.loadObject("books.ser");
+        //createBooksForLibrary();
     }
 
     void createBooksForLibrary() {
@@ -70,15 +68,17 @@ public class Shelf implements Serializable {
 
     //Check null
     public Book borrowBook(String title) {
-        Book book = getBook(title);
         try {
+            Book book = getBook(title);
             if (book.isAvailable()) {
                 book.setAvailable(false);
                 FileUtility.saveObject("books.ser", books);
                 return book;
+            } else {
+                System.out.println("Not available.");
             }
-        } catch (NullPointerException e) {
-            System.out.println("Not available.");
+        } catch (Exception e) {
+            System.out.println("No book with that name in library");
         }
         return null;
     }
