@@ -1,8 +1,9 @@
 package com.company;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Borrower extends Person {
+public class Borrower extends Person implements Serializable {
 
     ArrayList<Book> loans = (ArrayList<Book>) FileUtility.loadObject("loans.ser");
 
@@ -53,7 +54,11 @@ public class Borrower extends Person {
             System.out.println("Try again, no book with that title in your account.");
         }
 
+    }
 
+    @Override
+    public void getInfo() {
+        System.out.printf("Name: %s\nId number: %s\n\n", getName(), getIdNumber());
     }
 
 }

@@ -53,6 +53,13 @@ public class Shelf implements Serializable {
         }
     }
 
+    void showBorrowedBooks(){
+        for (Book book : books) {
+            if (!book.isAvailable())
+                book.getInfo();
+        }
+    }
+
     //Check null
     public Book getBook(String title) {
         try {

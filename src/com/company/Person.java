@@ -20,11 +20,5 @@ public abstract class Person implements Serializable {
         return idNumber;
     }
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "name='" + name + '\'' +
-                ", idNumber='" + idNumber + '\'' +
-                '}';
-    }
+    public abstract void getInfo();
 }
