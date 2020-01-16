@@ -42,7 +42,7 @@ public class Library implements Serializable {
                     librarianMenu();
                     break;
                 case "3":
-                    createAccount();
+                    createLibraryAccount();
                     break;
                 case "4":
                     shelf.showAllBooks();
@@ -81,7 +81,7 @@ public class Library implements Serializable {
 
             switch (option) {
                 case "1":
-                    borrowBook();
+                    checkIfBookIsAvailable();
                     break;
                 case "2":
                     returnLibraryItem();
@@ -176,7 +176,7 @@ public class Library implements Serializable {
 
 
     //User
-    private void createAccount() {
+    private void createLibraryAccount() {
         System.out.println("1. Borrower");
         System.out.println("2. Librarian");
         String userType = input.nextLine();
@@ -212,12 +212,12 @@ public class Library implements Serializable {
     }
 
 
-    private void borrowBook() {
+    private void checkIfBookIsAvailable() {
         System.out.println("Enter name of book to loan");
         String nameOfBook = input.nextLine();
-        Book book = shelf.borrowBook(nameOfBook);
+        Book book = shelf.isBookAvailable(nameOfBook);
         if (book != null) {
-            addBookToBorrower(book);
+            borrowBook(book);
             FileUtility.saveObject("books.ser", shelf.books);
             System.out.printf("Book: %s loaned.\n", book.getTitle());
         } else {
@@ -226,7 +226,7 @@ public class Library implements Serializable {
 
     }
 
-    private void addBookToBorrower(Book book) {
+    private void borrowBook(Book book) {
         System.out.println("Enter your name: ");
         String nameOfBorrower = input.nextLine();
         Borrower borrower = (Borrower) getBorrower(nameOfBorrower);

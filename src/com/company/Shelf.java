@@ -74,7 +74,7 @@ public class Shelf implements Serializable {
     }
 
     //Check null
-    public Book borrowBook(String title) {
+    public Book isBookAvailable(String title) {
         try {
             Book book = getBook(title);
             if (book.isAvailable()) {
