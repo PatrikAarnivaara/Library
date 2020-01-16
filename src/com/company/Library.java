@@ -3,6 +3,7 @@ package com.company;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Library implements Serializable {
 
@@ -167,6 +168,12 @@ public class Library implements Serializable {
         System.out.println("Wrong password, try again.");
     }
 
+    private boolean validateIdNumber(String idNumber) {
+        String regex = "^(19|20)?[0-9]{6}[- ]?[0-9]{4}$";
+        return Pattern.matches(regex, idNumber);
+
+    }
+
 
     //User
     private void createAccount() {
@@ -188,13 +195,23 @@ public class Library implements Serializable {
 
     //Borrower
     private void registerBorrower() {
+        //First name and surname
         System.out.println("Name: ");
         String name = input.nextLine();
-        System.out.println("Id number: ");
-        //Regex
+        System.out.println("Id number: YYMMDD-XXXX");
         String idNumber = input.nextLine();
-        borrowers.add(new Borrower(name, idNumber));
-        System.out.println("Your borrower account is registered.");
+
+        boolean validate = true;
+
+        while (validate) {
+            if (validateIdNumber(idNumber)) {
+                borrowers.add(new Borrower(name, idNumber));
+                validate = false;
+                System.out.println("Your borrower account is registered.");
+            } else {
+                System.out.println("Id-number format YYMMDD-XXXX");
+            }
+        }
     }
 
 
@@ -292,10 +309,9 @@ public class Library implements Serializable {
     private void showAllBorrowers() {
 
         for (Person borrower : borrowers) {
-            if(borrower != null) {
+            if (borrower != null) {
                 borrower.getInfo();
-            }
-            else {
+            } else {
                 System.out.println("No borrowers registered.");
             }
         }
