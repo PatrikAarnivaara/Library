@@ -117,12 +117,12 @@ public class Shelf implements Serializable {
     }
 
     //Sort
-    private ArrayList<Book> sortWriters(ArrayList<Book> list) {
+    public ArrayList<Book> sortWriters(ArrayList<Book> list) {
         list.sort(sortWriters);
         return list;
     }
 
-    private ArrayList<Book> sortBookTitle(ArrayList<Book> list) {
+    public ArrayList<Book> sortBookTitles(ArrayList<Book> list) {
         list.sort(sortBookTitles);
         return list;
     }
@@ -141,7 +141,7 @@ public class Shelf implements Serializable {
     }
 
     public Book findTitleByName(String name) {
-        ArrayList<Book> titles = sortBookTitle(books);
+        ArrayList<Book> titles = sortBookTitles(books);
         for (Book title : titles) {
             if (title.getTitle().toLowerCase().contains(name.toLowerCase())) {
                 return title;
@@ -152,5 +152,7 @@ public class Shelf implements Serializable {
 
     }
 
-
+    public ArrayList<Book> getBooks() {
+        return books;
+    }
 }

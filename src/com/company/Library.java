@@ -73,7 +73,8 @@ public class Library implements Serializable {
             System.out.println("4. Show all books");
             System.out.println("5. Show available books");
             System.out.println("6. Search on writer or title");
-            System.out.println("7. Return to main menu");
+            System.out.println("7. Sort list on writer or title");
+            System.out.println("8. Return to main menu");
             System.out.println("----------------------");
 
             String option = input.nextLine();
@@ -98,6 +99,9 @@ public class Library implements Serializable {
                     searchOnWriterOrTitle();
                     break;
                 case "7":
+                    showSortedListOfWritersOrTitles();
+                    break;
+                case "8":
                     borrowing = false;
                     break;
                 default:
@@ -144,7 +148,6 @@ public class Library implements Serializable {
                     break;
                 case "6":
                     showBorrowerLoans();
-                    System.out.println("Books loaned by name: ");
                     break;
                 case "7":
                     administrating = false;
@@ -170,7 +173,6 @@ public class Library implements Serializable {
         String regex = "^(19|20)?[0-9]{6}[- ]?[0-9]{4}$";
         return Pattern.matches(regex, idNumber);
     }
-
 
     //User
     private void createLibraryAccount() {
@@ -223,7 +225,6 @@ public class Library implements Serializable {
         System.out.println("No borrowers registered.");
         return null;
     }
-
 
     private void checkIfBookIsAvailable() {
         System.out.println("Enter name of book to loan");
@@ -319,6 +320,27 @@ public class Library implements Serializable {
 
     }
 
+    private void showSortedListOfWritersOrTitles() {
+        System.out.println("Show list of writer or title");
+        System.out.println("1. Writer");
+        System.out.println("2. Title");
+        String option = input.nextLine();
+
+        switch (option) {
+            case "1":
+                shelf.sortWriters(shelf.getBooks());
+                shelf.showAllBooks();
+                break;
+            case "2":
+                shelf.sortBookTitles(shelf.getBooks());
+                shelf.showAllBooks();
+                break;
+            default:
+                System.out.println("Enter 1 or 2");
+                break;
+        }
+    }
+
     //Librarian
     private void registerLibrarian() {
         System.out.println("Name: ");
@@ -347,7 +369,6 @@ public class Library implements Serializable {
         }
 
     }
-
 
     private void addNewBookToLibrary() {
         System.out.println("Title: ");
