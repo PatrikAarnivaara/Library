@@ -143,6 +143,7 @@ public class Library implements Serializable {
                     System.out.println("Input id number:");
                     break;
                 case "6":
+                    showBorrowerLoans();
                     System.out.println("Books loaned by name: ");
                     break;
                 case "7":
@@ -208,7 +209,7 @@ public class Library implements Serializable {
     }
 
     private Person checkIfBorrowerIsRegistered() {
-        System.out.println("Enter your name: ");
+        System.out.println("Name: ");
         String nameOfBorrower = input.nextLine();
         return getBorrower(nameOfBorrower);
     }
@@ -257,6 +258,7 @@ public class Library implements Serializable {
             System.out.println("No user with that name.");
         }
     }
+
 
     private void returnBook() {
         Borrower borrower = (Borrower) checkIfBorrowerIsRegistered();
