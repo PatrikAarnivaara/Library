@@ -11,11 +11,13 @@ public class Borrower extends Person implements Serializable {
         super(name, idNumber);
     }
 
+    //Add
     public void addLoan(Book book) {
         loans.add(book);
         FileUtility.saveObject("loans.ser", loans);
     }
 
+    //Get
     private int getIndexOfBook(String title) {
         for (Book book : loans) {
             if (book.getTitle().equals(title)) {
@@ -38,12 +40,14 @@ public class Borrower extends Person implements Serializable {
         System.out.println(" ");
     }
 
+    //Show
     public void showBorrowedBooks(String name) {
         System.out.println("Loaned books by " + name + ": ");
         getBorrowedBooks();
 
     }
 
+    //Return
     public void returnBook(String name) {
         try {
             int indexBookRemove = getIndexOfBook(name);
