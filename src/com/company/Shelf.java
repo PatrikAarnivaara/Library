@@ -46,13 +46,14 @@ public class Shelf implements Serializable {
     //Remove
     public void removeBookFromShelf(String title) {
         int indexOfBookToRemove = getIndexOfBook(title);
-        try {
+        if (indexOfBookToRemove != 0) {
             books.remove(indexOfBookToRemove);
             FileUtility.saveObject("books.ser", books);
             System.out.printf("Book %s has been removed from library.\n", title);
-        } catch (Exception e) {
-            System.out.println("No book with that title in library.");
+        } else {
+            System.out.println("No book with that title in library.\n");
         }
+
     }
 
     //Show

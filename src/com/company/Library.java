@@ -72,9 +72,8 @@ public class Library implements Serializable {
             System.out.println("3. Show my loans");
             System.out.println("4. Show all books");
             System.out.println("5. Show available books");
-            System.out.println("6. Find book by writer");
-            System.out.println("7. Find book by title");
-            System.out.println("8. Return to main menu");
+            System.out.println("6. Search on writer or title");
+            System.out.println("7. Return to main menu");
             System.out.println("----------------------");
 
             String option = input.nextLine();
@@ -96,12 +95,9 @@ public class Library implements Serializable {
                     shelf.showAvailableBooks();
                     break;
                 case "6":
-                    findWriter();
+                    searchOnWriterOrTitle();
                     break;
                 case "7":
-                    findTitle();
-                    break;
-                case "8":
                     borrowing = false;
                     break;
                 default:
@@ -274,6 +270,25 @@ public class Library implements Serializable {
     }
 
     //Combine to switch with two options
+    private void searchOnWriterOrTitle() {
+        System.out.println("Search for writer or title");
+        System.out.println("1. Writer");
+        System.out.println("2. Title");
+        String option = input.nextLine();
+
+        switch (option) {
+            case "1":
+                findWriter();
+                break;
+            case "2":
+                findTitle();
+                break;
+            default:
+                System.out.println("Enter 1 or 2");
+                break;
+        }
+    }
+
     private void findWriter() {
         System.out.println("Name of writer: ");
         try {
@@ -321,7 +336,6 @@ public class Library implements Serializable {
     }
 
     private void showAllBorrowers() {
-
         for (Person borrower : borrowers) {
             if (borrower != null) {
                 borrower.getInfo();
@@ -332,8 +346,7 @@ public class Library implements Serializable {
 
     }
 
-    //Try catch, check this.
-    //Enum problem
+
     private void addNewBookToLibrary() {
         System.out.println("Title: ");
         String title = input.nextLine();
@@ -341,10 +354,14 @@ public class Library implements Serializable {
         String writer = input.nextLine();
         System.out.println("Description: ");
         String description = input.nextLine();
-        System.out.println("Category: ");
-        String categoryInput = input.nextLine();
-        Category category = Category.valueOf(categoryInput.toUpperCase());
-        shelf.addNewBookToShelf(title, writer, description, category);
+        try {
+            System.out.println("Category: ");
+            String categoryInput = input.nextLine();
+            Category category = Category.valueOf(categoryInput.toUpperCase());
+            shelf.addNewBookToShelf(title, writer, description, category);
+        } catch (Exception e) {
+            System.out.println("No such category in library system, try again.");
+        }
     }
 
     private void removeBookFromLibrary() {
