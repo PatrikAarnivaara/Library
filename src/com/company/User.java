@@ -97,6 +97,7 @@ public class User implements Serializable {
                 System.out.println("Wrong password, try again.");
             }
         }
+        System.out.println("Wrong username");
         return null;
 
     }

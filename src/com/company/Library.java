@@ -114,7 +114,7 @@ public class Library implements Serializable {
             System.out.println("2. Remove book");
             System.out.println("3. Show borrowed books");
             System.out.println("4. Show all borrowers");
-            System.out.println("5. Search borrowers");
+            System.out.println("5. Search borrower name");
             System.out.println("6. Show borrower's books");
             System.out.println("7. Return to main menu");
             System.out.println("--------------------------");
