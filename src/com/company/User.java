@@ -149,10 +149,8 @@ public class User implements Serializable {
 
     void showAllBorrowers() {
         for (Person borrower : users) {
-            if (borrower != null) {
+            if (borrower instanceof Borrower) {
                 borrower.getInfo();
-            } else {
-                System.out.println("No borrowers registered.");
             }
         }
 

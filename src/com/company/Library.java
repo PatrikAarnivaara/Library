@@ -45,7 +45,7 @@ public class Library implements Serializable {
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("Enter a number between 1-5");
+                    System.out.println("Enter a number between 1-4");
                     break;
             }
         }
@@ -271,19 +271,25 @@ public class Library implements Serializable {
     //******************************
 
     private void addNewBookToLibrary() {
+
+        boolean adding = true;
+
         System.out.println("Title: ");
         String title = input.nextLine();
         System.out.println("Writer: ");
         String writer = input.nextLine();
         System.out.println("Description: ");
         String description = input.nextLine();
-        try {
-            System.out.println("Category: ");
-            String categoryInput = input.nextLine();
-            Category category = Category.valueOf(categoryInput.toUpperCase());
-            shelf.addNewBookToShelf(title, writer, description, category);
-        } catch (Exception e) {
-            System.out.println("No such category in library system, try again.");
+        while(adding) {
+            try {
+                System.out.println("Category: ");
+                String categoryInput = input.nextLine();
+                Category category = Category.valueOf(categoryInput.toUpperCase());
+                shelf.addNewBookToShelf(title, writer, description, category);
+                adding = false;
+            } catch (Exception e) {
+                System.out.println("No such category in library system, try again.");
+            }
         }
     }
 

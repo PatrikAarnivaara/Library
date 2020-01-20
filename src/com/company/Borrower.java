@@ -45,8 +45,6 @@ public class Borrower extends Person implements Serializable {
             for (Book loan : loans) {
                 System.out.println("Book title: " + loan.getTitle());
             }
-        } else {
-            System.out.println("You currently do not have any loaned books.");
         }
         System.out.println(" ");
     }
@@ -60,7 +58,7 @@ public class Borrower extends Person implements Serializable {
 
     @Override
     public void getInfo() {
-        System.out.printf("\nName: %s\nId number: %s\nUsername: %s\n", getName(), getIdNumber(), getUserName());
+        System.out.printf("\nName: %s\nId number: %s\nUsername: %s\n\n", getName(), getIdNumber(), getUserName());
     }
 
 }
