@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class Librarian extends Person implements Serializable {
 
-    public Librarian(String name, String idNumber) {
-        super(name, idNumber);
+    public Librarian(String name, String idNumber, String userName, String password) {
+        super(name, idNumber, userName, password);
     }
 
     @Override

@@ -1,18 +1,26 @@
 package com.company;
 
+import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Shelf implements Serializable {
 
-    public ArrayList<Book> books = (ArrayList<Book>) FileUtility.loadObject("books.ser");
     Comparator<Book> sortWriters = (book, bookTwo) -> (int) book.getWriter().compareTo(bookTwo.getWriter());
     Comparator<Book> sortBookTitles = (book, bookTwo) -> (int) book.getTitle().compareTo(bookTwo.getTitle());
 
+    public ArrayList<Book> books = new ArrayList<>();
 
     public Shelf() {
-        //addBooksToShelf();
+
+        if (Files.exists(Paths.get("books.ser"))) {
+            books = (ArrayList<Book>) FileUtility.loadObject("books.ser");
+        } else {
+            addBooksToShelf();
+        }
     }
 
     //Create
@@ -34,12 +42,13 @@ public class Shelf implements Serializable {
         books.add(new Book("A Brief History of Time", "Stephen Hawkins", "Published more than two decades ago to great critical acclaim and commercial success, A Brief History of Time has become a landmark volume in science writing.", Category.SCIENCE, true));
         books.add(new Book("A Short History of Nearly Everything", "Bill Bryson", "One of the world’s most beloved and bestselling writers takes his ultimate journey -- into the most intriguing and intractable questions that science seeks to answer.", Category.SCIENCE, true));
         books.add(new Book("The Age of AI", "Jason Thacker", "Alexa, how is AI changing our world? We interact with artificial intelligence, or AI, nearly every moment of the day without knowing it.", Category.SCIENCE, true));
+        FileUtility.saveObject("books.ser", books);
     }
 
     //Add
     public void addNewBookToShelf(String title, String writer, String description, Category category) {
         books.add(new Book(title, writer, description, category, true));
-        FileUtility.saveObject("books.ser", books);
+        //FileUtility.saveObject("books.ser", books);
         System.out.printf("Book %s has been added to library.\n", title);
     }
 
@@ -48,7 +57,7 @@ public class Shelf implements Serializable {
         int indexOfBookToRemove = getIndexOfBook(title);
         if (indexOfBookToRemove != 0) {
             books.remove(indexOfBookToRemove);
-            FileUtility.saveObject("books.ser", books);
+            //FileUtility.saveObject("books.ser", books);
             System.out.printf("Book %s has been removed from library.\n", title);
         } else {
             System.out.println("No book with that title in library.\n");
@@ -101,18 +110,14 @@ public class Shelf implements Serializable {
 
     //Check
     public Book isBookAvailable(String title) {
-        try {
             Book book = getBook(title);
             if (book.isAvailable()) {
                 book.setAvailable(false);
-                FileUtility.saveObject("books.ser", books);
+                //FileUtility.saveObject("books.ser", books);
                 return book;
             } else {
                 System.out.println("Not available.");
             }
-        } catch (Exception e) {
-            System.out.println("No book with that name in library");
-        }
         return null;
     }
 

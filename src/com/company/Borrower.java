@@ -1,20 +1,29 @@
 package com.company;
 
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Borrower extends Person implements Serializable {
 
-    ArrayList<Book> loans = (ArrayList<Book>) FileUtility.loadObject("loans.ser");
+    ArrayList<Book> loans = new ArrayList<>();
 
-    public Borrower(String name, String idNumber) {
-        super(name, idNumber);
+    public Borrower(String name, String idNumber, String userName, String password) {
+        super(name, idNumber, userName, password);
+
+        if (Files.exists(Paths.get("loans.ser"))) {
+            loans = (ArrayList<Book>) FileUtility.loadObject("loans.ser");
+        } else {
+            FileUtility.saveObject("loans.ser", loans);
+        }
+
     }
 
     //Add
     public void addLoan(Book book) {
         loans.add(book);
-        FileUtility.saveObject("loans.ser", loans);
+        //FileUtility.saveObject("loans.ser", loans);
     }
 
     //Get
@@ -22,7 +31,7 @@ public class Borrower extends Person implements Serializable {
         for (Book book : loans) {
             if (book.getTitle().equals(title)) {
                 book.setAvailable(true);
-                FileUtility.saveObject("loans.ser", loans);
+                //FileUtility.saveObject("loans.ser", loans);
                 return loans.indexOf(book);
             }
         }
@@ -48,11 +57,11 @@ public class Borrower extends Person implements Serializable {
     }
 
     //Return
-    public void returnBook(String name) {
+    public void returnBook(String title) {
         try {
-            int indexBookRemove = getIndexOfBook(name);
+            int indexBookRemove = getIndexOfBook(title);
             loans.remove(indexBookRemove);
-            FileUtility.saveObject("loans.ser", loans);
+            //FileUtility.saveObject("loans.ser", loans);
             System.out.println("Book returned.");
         } catch (Exception e) {
             System.out.println("Try again, no book with that title in your account.");
