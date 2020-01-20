@@ -78,7 +78,7 @@ public class Library implements Serializable {
                     returnBook(userName);
                     break;
                 case "3":
-                    user.showBorrowerLoans();
+                    user.showBorrowerLoans(userName);
                     break;
                 case "4":
                     shelf.showAllBooks();
@@ -115,7 +115,7 @@ public class Library implements Serializable {
             System.out.println("3. Show borrowed books");
             System.out.println("4. Show all borrowers");
             System.out.println("5. Search borrower name");
-            System.out.println("6. Show borrower's books");
+            System.out.println("6. Show borrower's loans");
             System.out.println("7. Return to main menu");
             System.out.println("--------------------------");
 
@@ -135,10 +135,10 @@ public class Library implements Serializable {
                     user.showAllBorrowers();
                     break;
                 case "5":
-                    searchBorrowerWithName();//Null pointer exception
+                    user.searchBorrowerWithName();
                     break;
                 case "6":
-                    user.showBorrowerLoans();
+                    showBorrowerLoans();
                     break;
                 case "7":
                     administrating = false;
@@ -190,13 +190,6 @@ public class Library implements Serializable {
     //******************************
     //Search user, writer and title
     //******************************
-
-    private void searchBorrowerWithName() {
-        System.out.println("Name of borrower: ");
-        String name = input.nextLine();
-        Person person = user.getBorrower(name);
-        person.getInfo();
-    }
 
     private void searchOnWriterOrTitle() {
         System.out.println("Search for writer or title");
@@ -266,6 +259,13 @@ public class Library implements Serializable {
         }
     }
 
+    private void showBorrowerLoans() {
+        System.out.println("Enter name of borrower");
+        String name = input.nextLine();
+        Borrower borrower = (Borrower) user.getBorrower(name);
+        user.showBorrowerLoans(borrower);
+    }
+
     //******************************
     //Librarian add and remove book
     //******************************
@@ -280,7 +280,7 @@ public class Library implements Serializable {
         String writer = input.nextLine();
         System.out.println("Description: ");
         String description = input.nextLine();
-        while(adding) {
+        while (adding) {
             try {
                 System.out.println("Category: ");
                 String categoryInput = input.nextLine();

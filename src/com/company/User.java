@@ -64,6 +64,7 @@ public class User implements Serializable {
                 String userName = input.nextLine();
                 System.out.println("Choose a password");
                 String password = input.nextLine();
+                //if(validatePassword(password)){
                 if (userType.equals("1")) {
                     users.add(new Borrower(name, idNumber, userName, password));
                     System.out.println("Your Borrower account is registered.");
@@ -107,10 +108,28 @@ public class User implements Serializable {
         return Pattern.matches(regex, idNumber);
     }
 
+    private boolean validatePassword(String password){
+        String regex = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
+        return Pattern.matches(regex,password);
+        /*1. patrik1A@
+             paTRi12$*/
+    }
+
 
     //******************************
     //Get and show user
     //******************************
+
+    public void searchBorrowerWithName() {
+        System.out.println("Name of borrower: ");
+        String name = input.nextLine();
+        Person person = getBorrower(name);
+        if (person != null) {
+            person.getInfo();
+        } else {
+            System.out.println("No borrower with that name.");
+        }
+    }
 
     Person checkIfBorrowerIsRegistered() {
         System.out.println("Name: ");
@@ -139,10 +158,9 @@ public class User implements Serializable {
     }
 
 
-    void showBorrowerLoans() {
-        Borrower borrower = (Borrower) checkIfBorrowerIsRegistered();
-        if (borrower != null) {
-            borrower.showBorrowedBooks(borrower.getName());
+    void showBorrowerLoans(Borrower userName) {
+        if (userName != null) {
+            userName.showBorrowedBooks(userName.getName());
         } else {
             System.out.println("No user with that name.");
         }

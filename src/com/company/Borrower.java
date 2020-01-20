@@ -22,21 +22,38 @@ public class Borrower extends Person implements Serializable {
 
     public void loanBookFromLibrary(Book book) {
         loans.add(book);
+        book.setAvailable(false);
+    }
+
+    private Book getBorrowedBook(String title) {
+        for (Book book : loans) {
+            if (book.getTitle().equals(title)) {
+                return book;
+            }
+        }
+        return null;
     }
 
     public void returnBookToLibrary(String title) {
+        Book bookReturned = getBorrowedBook(title);
         int indexBookRemove = getIndexOfBook(title);
-        loans.remove(indexBookRemove);
-        System.out.println("Book returned.");
+        if (indexBookRemove >= 0 && bookReturned != null) {
+            loans.remove(indexBookRemove);
+            bookReturned.setAvailable(true);
+            System.out.println("Book returned.");
+        }
+        else{
+            System.out.println("Incorrect title, try again.");
+        }
     }
 
     private int getIndexOfBook(String title) {
-        for (Book book : loans) {
-            if (book.getTitle().equals(title)) {
-                book.setAvailable(true);
-                return loans.indexOf(book);
+        if (title != null)
+            for (Book book : loans) {
+                if (book.getTitle().equals(title)) {
+                    return loans.indexOf(book);
+                }
             }
-        }
         return 0;
     }
 
