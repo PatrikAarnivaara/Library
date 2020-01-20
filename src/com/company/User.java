@@ -112,6 +112,18 @@ public class User implements Serializable {
     //Get and show user
     //******************************
 
+    public void searchBorrowerWithName() {
+        System.out.println("Name of borrower: ");
+        String name = input.nextLine();
+        Person person = getBorrower(name);
+        if (person != null) {
+            person.getInfo();
+        }
+        else{
+            System.out.println("No borrower with that name.");
+        }
+    }
+
     Person checkIfBorrowerIsRegistered() {
         System.out.println("Name: ");
         String nameOfBorrower = input.nextLine();

@@ -135,7 +135,7 @@ public class Library implements Serializable {
                     user.showAllBorrowers();
                     break;
                 case "5":
-                    searchBorrowerWithName();//Null pointer exception
+                    user.searchBorrowerWithName();
                     break;
                 case "6":
                     user.showBorrowerLoans();
@@ -190,13 +190,6 @@ public class Library implements Serializable {
     //******************************
     //Search user, writer and title
     //******************************
-
-    private void searchBorrowerWithName() {
-        System.out.println("Name of borrower: ");
-        String name = input.nextLine();
-        Person person = user.getBorrower(name);
-        person.getInfo();
-    }
 
     private void searchOnWriterOrTitle() {
         System.out.println("Search for writer or title");
@@ -280,7 +273,7 @@ public class Library implements Serializable {
         String writer = input.nextLine();
         System.out.println("Description: ");
         String description = input.nextLine();
-        while(adding) {
+        while (adding) {
             try {
                 System.out.println("Category: ");
                 String categoryInput = input.nextLine();
