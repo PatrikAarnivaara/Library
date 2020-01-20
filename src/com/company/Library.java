@@ -138,10 +138,7 @@ public class Library implements Serializable {
                     user.searchBorrowerWithName();
                     break;
                 case "6":
-                    System.out.println("Enter name of borrower");
-                    String name = input.nextLine();
-                    Borrower borrower = (Borrower) user.getBorrower(name);
-                    user.showBorrowerLoans(borrower);
+                    showBorrowerLoans();
                     break;
                 case "7":
                     administrating = false;
@@ -260,6 +257,13 @@ public class Library implements Serializable {
                 System.out.println("Enter 1 or 2");
                 break;
         }
+    }
+
+    private void showBorrowerLoans() {
+        System.out.println("Enter name of borrower");
+        String name = input.nextLine();
+        Borrower borrower = (Borrower) user.getBorrower(name);
+        user.showBorrowerLoans(borrower);
     }
 
     //******************************

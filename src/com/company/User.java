@@ -64,6 +64,7 @@ public class User implements Serializable {
                 String userName = input.nextLine();
                 System.out.println("Choose a password");
                 String password = input.nextLine();
+                //if(validatePassword(password)){
                 if (userType.equals("1")) {
                     users.add(new Borrower(name, idNumber, userName, password));
                     System.out.println("Your Borrower account is registered.");
@@ -105,6 +106,13 @@ public class User implements Serializable {
     private boolean validateIdNumber(String idNumber) {
         String regex = "^(19|20)?[0-9]{6}[- ]?[0-9]{4}$";
         return Pattern.matches(regex, idNumber);
+    }
+
+    private boolean validatePassword(String password){
+        String regex = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
+        return Pattern.matches(regex,password);
+        /*1. patrik1A@
+             paTRi12$*/
     }
 
 
