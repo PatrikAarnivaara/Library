@@ -122,9 +122,6 @@ public class User implements Serializable {
         for (Person borrower : users) {
             if (name.equals(borrower.getName())) {
                 return borrower;
-            } else {
-                System.out.println("No user with that name, try again.");
-                return null;
             }
         }
         return null;

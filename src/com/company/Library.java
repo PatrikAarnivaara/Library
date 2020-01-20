@@ -14,7 +14,10 @@ public class Library implements Serializable {
     }
 
 
-    //Menus
+    //**********************************
+    //Main, borrower and librarian menus
+    //**********************************
+
     private void mainMenu() {
         while (true) {
 
@@ -100,7 +103,7 @@ public class Library implements Serializable {
     }
 
 
-    private void librarianMenu(Librarian userName) {
+    private void librarianMenu() {
 
         boolean administrating = true;
 
@@ -151,7 +154,8 @@ public class Library implements Serializable {
         if (userName instanceof Borrower) {
             borrowerMenu((Borrower) userName);
         } else if (userName instanceof Librarian) {
-            librarianMenu((Librarian) userName);
+            librarianMenu();
+            //librarianMenu((Librarian) userName);
         }
 
     }
