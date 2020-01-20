@@ -22,12 +22,11 @@ public class User implements Serializable {
 
     }
 
-    private boolean validateIdNumber(String idNumber) {
-        String regex = "^(19|20)?[0-9]{6}[- ]?[0-9]{4}$";
-        return Pattern.matches(regex, idNumber);
-    }
+    //******************************
+    //Create user account and login
+    //******************************
 
-    //User - Create user account - 1
+    //Step 1
     void createLibraryAccount() {
         System.out.println("1. Borrower");
         System.out.println("2. Librarian");
@@ -35,7 +34,7 @@ public class User implements Serializable {
         chooseUserType(userType);
     }
 
-    //User - What type of user: Borrower or Librarian - 2
+    //Step 2
     private void chooseUserType(String userType) {
         switch (userType) {
             case "1":
@@ -50,7 +49,7 @@ public class User implements Serializable {
         }
     }
 
-    //User - Register user - 3
+    //Step 3
     private void registerUser(String userType) {
         System.out.println("Name: ");
         String name = input.nextLine();
@@ -80,12 +79,11 @@ public class User implements Serializable {
         }
     }
 
-    //User - Login user - 4 (move to Library class?)
+    //Step 4
     public Person logInUser() {
-
-        System.out.println("Enter User Name: ");
-        String userName = input.nextLine();
-        Person user = getUserName(userName);
+        System.out.println("Enter username: ");
+        String userNameLogin = input.nextLine();
+        Person user = getUserName(userNameLogin);
         if (user != null) {
             while (true) {
                 System.out.println("Enter password: ");
@@ -95,24 +93,31 @@ public class User implements Serializable {
                         System.out.println("Login successful.");
                         return user;
                     }
-                } else {
-                    System.out.println("Wrong password, try again.");
                 }
+                System.out.println("Wrong password, try again.");
             }
         }
-        System.out.println("Wrong username, try again.");
         return null;
 
     }
 
-    //User - Check
+    private boolean validateIdNumber(String idNumber) {
+        String regex = "^(19|20)?[0-9]{6}[- ]?[0-9]{4}$";
+        return Pattern.matches(regex, idNumber);
+    }
+
+
+    //******************************
+    //Get and show user
+    //******************************
+
     Person checkIfBorrowerIsRegistered() {
         System.out.println("Name: ");
         String nameOfBorrower = input.nextLine();
         return getBorrower(nameOfBorrower);
     }
 
-    //Get borrower
+
     public Person getBorrower(String name) {
         for (Person borrower : users) {
             if (name.equals(borrower.getName())) {
@@ -125,20 +130,17 @@ public class User implements Serializable {
         return null;
     }
 
-    //Get username
+
     public Person getUserName(String userName) {
         for (Person user : users) {
             if (userName.equals(user.getUserName())) {
                 return user;
-            } else {
-                System.out.println("Username unknown, try again.");
-                return null;
             }
         }
         return null;
     }
 
-    //User - Show
+
     void showBorrowerLoans() {
         Borrower borrower = (Borrower) checkIfBorrowerIsRegistered();
         if (borrower != null) {
@@ -148,8 +150,6 @@ public class User implements Serializable {
         }
     }
 
-
-    //Librarian - Show
     void showAllBorrowers() {
         for (Person borrower : users) {
             if (borrower != null) {
@@ -164,6 +164,5 @@ public class User implements Serializable {
     public ArrayList<Person> getUsers() {
         return users;
     }
-
 
 }

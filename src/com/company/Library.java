@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Library implements Serializable {
 
-    Scanner input = new Scanner(System.in);
+    transient Scanner input = new Scanner(System.in);
     Shelf shelf = new Shelf();
     User user = new User();
 
@@ -24,7 +24,6 @@ public class Library implements Serializable {
             System.out.println("3. Show books");
             System.out.println("4. Exit");
             System.out.println("-----------------");
-
             String option = input.nextLine();
 
             switch (option) {
@@ -70,10 +69,10 @@ public class Library implements Serializable {
 
             switch (option) {
                 case "1":
-                    checkIfBookIsAvailable(userName);
+                    borrowBook(userName);
                     break;
                 case "2":
-                    returnBook();
+                    returnBook(userName);
                     break;
                 case "3":
                     user.showBorrowerLoans();
@@ -91,7 +90,6 @@ public class Library implements Serializable {
                     showSortedListOfWritersOrTitles();
                     break;
                 case "8":
-                    userName = null;
                     borrowing = false;
                     break;
                 default:
@@ -158,21 +156,16 @@ public class Library implements Serializable {
 
     }
 
-    private void searchBorrowerWithName() {
-        System.out.println("Name of borrower: ");
-        String name = input.nextLine();
-        Person person = user.getBorrower(name);
-        person.getInfo();
-    }
+    //******************************
+    //Borrow and return book
+    //******************************
 
-
-    private void checkIfBookIsAvailable(Borrower username) {
+    private void borrowBook(Borrower username) {
         System.out.println("Enter name of book to loan:");
         String titleOfBook = input.nextLine();
         Book book = shelf.isBookAvailable(titleOfBook);
         if (book != null) {
-            username.addLoan(book);
-            //FileUtility.saveObject("books.ser", shelf.books);
+            username.loanBookFromLibrary(book);
             System.out.printf("Book: %s loaned.\n", book.getTitle());
         } else {
             System.out.println("Try another title.");
@@ -180,19 +173,27 @@ public class Library implements Serializable {
 
     }
 
-    //Borrower - Return
-    private void returnBook() {
-        Borrower borrower = (Borrower) user.checkIfBorrowerIsRegistered();
-        if (borrower != null) {
+    private void returnBook(Borrower username) {
+        if (username != null) {
             System.out.println("Name of book to return:");
             String itemToReturn = input.nextLine();
-            borrower.returnBook(itemToReturn);
+            username.returnBookToLibrary(itemToReturn);
         } else {
             System.out.println("No borrower with that name.");
         }
     }
 
-    //Borrower - Search
+    //******************************
+    //Search user, writer and title
+    //******************************
+
+    private void searchBorrowerWithName() {
+        System.out.println("Name of borrower: ");
+        String name = input.nextLine();
+        Person person = user.getBorrower(name);
+        person.getInfo();
+    }
+
     private void searchOnWriterOrTitle() {
         System.out.println("Search for writer or title");
         System.out.println("1. Writer");
@@ -211,7 +212,6 @@ public class Library implements Serializable {
                 break;
         }
     }
-
 
     private void findWriter() {
         System.out.println("Name of writer: ");
@@ -241,8 +241,6 @@ public class Library implements Serializable {
 
     }
 
-
-    //Borrower - Show
     private void showSortedListOfWritersOrTitles() {
         System.out.println("Show list of writer or title");
         System.out.println("1. Writer");
@@ -264,7 +262,10 @@ public class Library implements Serializable {
         }
     }
 
-    //Librarian - Add
+    //******************************
+    //Librarian add and remove book
+    //******************************
+
     private void addNewBookToLibrary() {
         System.out.println("Title: ");
         String title = input.nextLine();
@@ -282,7 +283,6 @@ public class Library implements Serializable {
         }
     }
 
-    //Librarian - Remove
     private void removeBookFromLibrary() {
         System.out.println("Title of book to remove: ");
         String titleOfBookToRemove = input.nextLine();

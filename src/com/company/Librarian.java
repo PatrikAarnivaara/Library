@@ -10,7 +10,7 @@ public class Librarian extends Person implements Serializable {
 
     @Override
     public void getInfo() {
-        System.out.printf("Name: %s\n Id number: %s \n", getName(), getIdNumber());
+        System.out.printf("\nName: %s\nId number: %s \nUsername: %s \n", getName(), getIdNumber(), getUserName());
     }
 
 
