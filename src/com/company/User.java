@@ -118,8 +118,7 @@ public class User implements Serializable {
         Person person = getBorrower(name);
         if (person != null) {
             person.getInfo();
-        }
-        else{
+        } else {
             System.out.println("No borrower with that name.");
         }
     }
@@ -151,10 +150,9 @@ public class User implements Serializable {
     }
 
 
-    void showBorrowerLoans() {
-        Borrower borrower = (Borrower) checkIfBorrowerIsRegistered();
-        if (borrower != null) {
-            borrower.showBorrowedBooks(borrower.getName());
+    void showBorrowerLoans(Borrower userName) {
+        if (userName != null) {
+            userName.showBorrowedBooks(userName.getName());
         } else {
             System.out.println("No user with that name.");
         }

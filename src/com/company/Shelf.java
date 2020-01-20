@@ -86,18 +86,6 @@ public class Shelf implements Serializable {
         }
     }
 
-    //Get
-    public Book getBook(String title) {
-        try {
-            for (Book book : books) {
-                if (title.equals(book.getTitle()))
-                    return book;
-            }
-        } catch (NullPointerException e) {
-            System.out.println("No book with that name in library");
-        }
-        return null;
-    }
 
     private int getIndexOfBook(String title) {
         for (Book book : books) {
@@ -108,18 +96,25 @@ public class Shelf implements Serializable {
         return 0;
     }
 
-    //Check
     public Book isBookAvailable(String title) {
-            Book book = getBook(title);
-            if (book.isAvailable()) {
-                book.setAvailable(false);
-                //FileUtility.saveObject("books.ser", books);
-                return book;
-            } else {
-                System.out.println("Not available.");
-            }
+        Book book = getBook(title);
+        if (book.isAvailable()) {
+            return book;
+        } else {
+            System.out.println("Not available.");
+        }
         return null;
     }
+
+    public Book getBook(String title) {
+        for (Book book : books) {
+            if (title.equals(book.getTitle()))
+                return book;
+        }
+        System.out.println("No book with that name in library");
+        return null;
+    }
+
 
     //Sort
     public ArrayList<Book> sortWriters(ArrayList<Book> list) {
