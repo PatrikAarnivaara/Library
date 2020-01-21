@@ -96,10 +96,10 @@ public class Shelf implements Serializable {
 
     public Book isBookAvailable(String title) {
         Book book = getBook(title);
-        if (book.isAvailable()) {
-            return book;
-        } else {
-            System.out.println("Not available.");
+        if (book != null) {
+            if (book.isAvailable()) {
+                return book;
+            }
         }
         return null;
     }

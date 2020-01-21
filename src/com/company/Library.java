@@ -171,8 +171,6 @@ public class Library implements Serializable {
         if (book != null) {
             username.loanBookFromLibrary(book);
             System.out.printf("Book: %s loaned.\n", book.getTitle());
-        } else {
-            System.out.println("Try another title.");
         }
 
     }

@@ -108,9 +108,9 @@ public class User implements Serializable {
         return Pattern.matches(regex, idNumber);
     }
 
-    private boolean validatePassword(String password){
+    private boolean validatePassword(String password) {
         String regex = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
-        return Pattern.matches(regex,password);
+        return Pattern.matches(regex, password);
         /*1. patrik1A@
              paTRi12$*/
     }
@@ -129,12 +129,6 @@ public class User implements Serializable {
         } else {
             System.out.println("No borrower with that name.");
         }
-    }
-
-    Person checkIfBorrowerIsRegistered() {
-        System.out.println("Name: ");
-        String nameOfBorrower = input.nextLine();
-        return getBorrower(nameOfBorrower);
     }
 
 
