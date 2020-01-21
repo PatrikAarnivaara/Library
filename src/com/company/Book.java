@@ -1,6 +1,7 @@
 package com.company;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public class Book implements Serializable {
 
@@ -9,14 +10,19 @@ public class Book implements Serializable {
     private String description;
     private Category category;
     private boolean available;
+    private String loanDate;
+    //private long dueDate;
 
 
-    public Book(String title, String writer, String description, Category category, boolean available) {
+    public Book(String title, String writer, String description, Category category,
+                boolean available, String loanDate) { //long dueDate
         this.title = title;
         this.writer = writer;
         this.description = description;
         this.category = category;
         this.available = available;
+        this.loanDate = loanDate;
+        //this.dueDate = dueDate;
     }
 
     public String getTitle() {
@@ -27,14 +33,6 @@ public class Book implements Serializable {
         return writer;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
     public boolean isAvailable() {
         return available;
     }
@@ -43,8 +41,13 @@ public class Book implements Serializable {
         this.available = available;
     }
 
+    public void setLoanDate(String loanDate) {
+        this.loanDate = loanDate;
+    }
+
     public void getInfo() {
-        System.out.printf(" Title: %s \n Writer: %s \n Description: %s \n Category: %s \n Available: %b \n\n", title, writer, description, category, available);
+        System.out.printf(" Title: %s \n Writer: %s \n Description: %s \n Category: %s \n Available: %b \n Loan Date: %s \n\n",
+                title, writer, description, category, available, loanDate);
     }
 
 }

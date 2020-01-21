@@ -3,6 +3,7 @@ package com.company;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Borrower extends Person implements Serializable {
@@ -23,6 +24,7 @@ public class Borrower extends Person implements Serializable {
     public void loanBookFromLibrary(Book book) {
         loans.add(book);
         book.setAvailable(false);
+        book.setLoanDate(LocalDate.now().toString());
     }
 
     private Book getBorrowedBook(String title) {
@@ -37,9 +39,10 @@ public class Borrower extends Person implements Serializable {
     public void returnBookToLibrary(String title) {
         Book bookReturned = getBorrowedBook(title);
         int indexBookRemove = getIndexOfBook(title);
-        if (indexBookRemove >= 0 && bookReturned != null) {
+        if (bookReturned != null) {
             loans.remove(indexBookRemove);
             bookReturned.setAvailable(true);
+            bookReturned.setLoanDate("");
             System.out.println("Book returned.");
         }
         else{
