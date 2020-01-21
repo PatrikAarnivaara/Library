@@ -11,18 +11,18 @@ public class Book implements Serializable {
     private Category category;
     private boolean available;
     private String loanDate;
-    //private long dueDate;
+    private String dueDate;
 
 
     public Book(String title, String writer, String description, Category category,
-                boolean available, String loanDate) { //long dueDate
+                boolean available, String loanDate, String dueDate) {
         this.title = title;
         this.writer = writer;
         this.description = description;
         this.category = category;
         this.available = available;
         this.loanDate = loanDate;
-        //this.dueDate = dueDate;
+        this.dueDate = dueDate;
     }
 
     public String getTitle() {
@@ -45,9 +45,13 @@ public class Book implements Serializable {
         this.loanDate = loanDate;
     }
 
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
     public void getInfo() {
-        System.out.printf(" Title: %s \n Writer: %s \n Description: %s \n Category: %s \n Available: %b \n Loan Date: %s \n\n",
-                title, writer, description, category, available, loanDate);
+        System.out.printf(" Title: %s \n Writer: %s \n Description: %s \n Category: %s \n Available: %b \n Loan Date: %s \n Due Date: %s \n\n",
+                title, writer, description, category, available, loanDate, dueDate);
     }
 
 }

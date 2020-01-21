@@ -25,6 +25,7 @@ public class Borrower extends Person implements Serializable {
         loans.add(book);
         book.setAvailable(false);
         book.setLoanDate(LocalDate.now().toString());
+        book.setDueDate(LocalDate.now().plusDays(12).toString());
     }
 
     private Book getBorrowedBook(String title) {
@@ -43,6 +44,7 @@ public class Borrower extends Person implements Serializable {
             loans.remove(indexBookRemove);
             bookReturned.setAvailable(true);
             bookReturned.setLoanDate("");
+            bookReturned.setDueDate("");
             System.out.println("Book returned.");
         }
         else{

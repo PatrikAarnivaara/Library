@@ -26,29 +26,29 @@ public class Shelf implements Serializable {
 
     //Create
     void addBooksToShelf() {
-        books.add(new Book("The Defenders", "Philip K Dick", "The Defenders is a 1953 science fiction novelette.", Category.FICTION, true, ""));
-        books.add(new Book("Frankenstein", "Mary Shelley", "When Victor Frankenstein, a brilliant scientist, tries to create life in his laboratory.", Category.FICTION, true,""));
-        books.add(new Book("Dracula", "Bram Stoker", "Count Dracula, the legendary vampire who is Lord of the Undead.", Category.FICTION, true,""));
-        books.add(new Book("The Invisible Man", "H. G. Wells", "When a brilliant scientist discovers an invisibility formula.", Category.FICTION, true,""));
-        books.add(new Book("Knife", "Jo Nesbo", "When Harry wakes up the morning after a blackout, " + "\n" + " drunken night with blood that's clearly not his own on his hands.", Category.CRIME, true,""));
-        books.add(new Book("Noir: A Novel", "Christopher Moore", "It’s not every afternoon that an enigmatic, comely blonde named Stilton.", Category.CRIME, true,""));
-        books.add(new Book("Gutshot Straight: A Novel", "Lou Berney", "Berney is “all in”—sure to win a fervent following with the story of “Shake” Bouchon.", Category.CRIME, true,""));
-        books.add(new Book("The Road to Gandolfo: A Novel", "Robert Ludlum", "Under house arrest in Peking. ", Category.CRIME, true,""));
-        books.add(new Book("Fahrenheit 451", "Ray Bradbury", "Guy Montag is a fireman. In his world, where television rules.", Category.FICTION, true,""));
-        books.add(new Book("Rule of Capture", "Christopher Brown", "Defeated in a devastating war with China. ", Category.HISTORY, true,""));
-        books.add(new Book("Witch Hunt", "Gregg Jarret", "How did a small group of powerful intelligence officials convince.", Category.HISTORY, true,""));
-        books.add(new Book("The Book", "Stephane Mallarme", "This legendary, unfinished project is now translated into English for the first time.", Category.LITERATURE, true,""));
-        books.add(new Book("Family Record", "Patrick Modiano", "An enthralling reflection on the ways that family history influences identity.", Category.LITERATURE, true,""));
-        books.add(new Book("Beloved", "Toni Morrison", "Staring unflinchingly into the abyss of slavery.", Category.LITERATURE, true,""));
-        books.add(new Book("A Brief History of Time", "Stephen Hawkins", "Published more than two decades ago to great critical acclaim and commercial success.", Category.SCIENCE, true,""));
-        books.add(new Book("A Short History of Nearly Everything", "Bill Bryson", "One of the world’s most beloved and bestselling writers takes his ultimate journey.", Category.SCIENCE, true,""));
-        books.add(new Book("The Age of AI", "Jason Thacker", "Alexa, how is AI changing our world? We interact with artificial intelligence.", Category.SCIENCE, true,""));
+        books.add(new Book("The Defenders", "Philip K Dick", "The Defenders is a 1953 science fiction novelette.", Category.FICTION, true, "", ""));
+        books.add(new Book("Frankenstein", "Mary Shelley", "When Victor Frankenstein, a brilliant scientist, tries to create life in his laboratory.", Category.FICTION, true,"", ""));
+        books.add(new Book("Dracula", "Bram Stoker", "Count Dracula, the legendary vampire who is Lord of the Undead.", Category.FICTION, true,"", ""));
+        books.add(new Book("The Invisible Man", "H. G. Wells", "When a brilliant scientist discovers an invisibility formula.", Category.FICTION, true,"", ""));
+        books.add(new Book("Knife", "Jo Nesbo", "When Harry wakes up the morning after a blackout, " + "\n" + " drunken night with blood that's clearly not his own on his hands.", Category.CRIME, true,"", ""));
+        books.add(new Book("Noir: A Novel", "Christopher Moore", "It’s not every afternoon that an enigmatic, comely blonde named Stilton.", Category.CRIME, true,"", ""));
+        books.add(new Book("Gutshot Straight: A Novel", "Lou Berney", "Berney is “all in”—sure to win a fervent following with the story of “Shake” Bouchon.", Category.CRIME, true,"", ""));
+        books.add(new Book("The Road to Gandolfo: A Novel", "Robert Ludlum", "Under house arrest in Peking. ", Category.CRIME, true,"", ""));
+        books.add(new Book("Fahrenheit 451", "Ray Bradbury", "Guy Montag is a fireman. In his world, where television rules.", Category.FICTION, true,"", ""));
+        books.add(new Book("Rule of Capture", "Christopher Brown", "Defeated in a devastating war with China. ", Category.HISTORY, true,"", ""));
+        books.add(new Book("Witch Hunt", "Gregg Jarret", "How did a small group of powerful intelligence officials convince.", Category.HISTORY, true,"", ""));
+        books.add(new Book("The Book", "Stephane Mallarme", "This legendary, unfinished project is now translated into English for the first time.", Category.LITERATURE, true,"", ""));
+        books.add(new Book("Family Record", "Patrick Modiano", "An enthralling reflection on the ways that family history influences identity.", Category.LITERATURE, true,"", ""));
+        books.add(new Book("Beloved", "Toni Morrison", "Staring unflinchingly into the abyss of slavery.", Category.LITERATURE, true,"", ""));
+        books.add(new Book("A Brief History of Time", "Stephen Hawkins", "Published more than two decades ago to great critical acclaim and commercial success.", Category.SCIENCE, true,"", ""));
+        books.add(new Book("A Short History of Nearly Everything", "Bill Bryson", "One of the world’s most beloved and bestselling writers takes his ultimate journey.", Category.SCIENCE, true,"", ""));
+        books.add(new Book("The Age of AI", "Jason Thacker", "Alexa, how is AI changing our world? We interact with artificial intelligence.", Category.SCIENCE, true,"", ""));
         FileUtility.saveObject("books.ser", books);
     }
 
     //Add
     public void addNewBookToShelf(String title, String writer, String description, Category category) {
-        books.add(new Book(title, writer, description, category, true, ""));
+        books.add(new Book(title, writer, description, category, true, "", ""));
         System.out.printf("Book %s has been added to library.\n", title);
     }
 
