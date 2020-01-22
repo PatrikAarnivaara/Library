@@ -53,7 +53,7 @@ public class Library implements Serializable {
 
     private void borrowerMenu(Borrower userName) {
 
-        userName.alertWhenBookIsOverDue();
+        userName.showLateBooks();
 
         boolean borrowing = true;
 
@@ -68,7 +68,7 @@ public class Library implements Serializable {
             System.out.println("6. Show available books");
             System.out.println("7. Search on writer or title");
             System.out.println("8. Sort list on writer or title");
-            System.out.println("9. Return to main menu");
+            System.out.println("9. Logout");
             System.out.println("----------------------");
 
             String option = input.nextLine();
@@ -122,7 +122,7 @@ public class Library implements Serializable {
             System.out.println("4. Show all borrowers");
             System.out.println("5. Search borrower name");
             System.out.println("6. Show borrower's loans");
-            System.out.println("7. Return to main menu");
+            System.out.println("7. Logout");
             System.out.println("--------------------------");
 
             String option = input.nextLine();
