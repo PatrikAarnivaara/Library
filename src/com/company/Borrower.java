@@ -19,8 +19,8 @@ public class Borrower extends Person implements Serializable {
         //book.setLoanDate(LocalDate.now().toString());
         //book.setDueDate(LocalDate.now().plusDays(12).toString());
 
-        //För att testa metoden som påminner låntagare om försenade böcker.
-        //Hårdkodade datum.
+        // Hårdkodade datum för att testa metoden som påminner
+        // låntagare om försenade böcker.
         book.setLoanDate("2020-01-02");
         book.setDueDate("2020-01-22");
     }
@@ -86,7 +86,9 @@ public class Borrower extends Person implements Serializable {
 
     private void showDays(Book book) {
         int numberOfDaysLeft = countDays(book);
-        if (numberOfDaysLeft >= 0) {
+        if (numberOfDaysLeft == 0) {
+            System.out.printf("%s is due today. \n", book.getTitle());
+        } else if (numberOfDaysLeft >= 0) {
             System.out.printf("%s is due in %d days. \n", book.getTitle(), numberOfDaysLeft);
         } else {
             System.out.printf("%s is %d days late. \n", book.getTitle(), Math.abs(numberOfDaysLeft));
@@ -94,7 +96,6 @@ public class Borrower extends Person implements Serializable {
     }
 
     public void showLateBooks() {
-
         for (Book book : loans) {
             alertWhenBookIsOverdue(book);
         }
@@ -109,7 +110,7 @@ public class Borrower extends Person implements Serializable {
 
     }
 
-    private int countDays(Book book){
+    private int countDays(Book book) {
         LocalDate todayDate = LocalDate.now();
         LocalDate dueDate = LocalDate.parse(book.getDueDate());
         Period period = Period.between(todayDate, dueDate);
