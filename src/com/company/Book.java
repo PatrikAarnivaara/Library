@@ -1,7 +1,6 @@
 package com.company;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 public class Book implements Serializable {
 
@@ -31,6 +30,14 @@ public class Book implements Serializable {
 
     public String getWriter() {
         return writer;
+    }
+
+    public String getLoanDate() {
+        return loanDate;
+    }
+
+    public String getDueDate() {
+        return dueDate;
     }
 
     public boolean isAvailable() {
