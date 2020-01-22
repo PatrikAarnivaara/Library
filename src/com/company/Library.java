@@ -53,6 +53,8 @@ public class Library implements Serializable {
 
     private void borrowerMenu(Borrower userName) {
 
+        userName.showLateBooks();
+
         boolean borrowing = true;
 
         while (borrowing) {
@@ -61,11 +63,12 @@ public class Library implements Serializable {
             System.out.println("1. Borrow book");
             System.out.println("2. Return book");
             System.out.println("3. Show my loans");
-            System.out.println("4. Show all books");
-            System.out.println("5. Show available books");
-            System.out.println("6. Search on writer or title");
-            System.out.println("7. Sort list on writer or title");
-            System.out.println("8. Return to main menu");
+            System.out.println("4. Show days left of loan");
+            System.out.println("5. Show all books");
+            System.out.println("6. Show available books");
+            System.out.println("7. Search on writer or title");
+            System.out.println("8. Sort list on writer or title");
+            System.out.println("9. Logout");
             System.out.println("----------------------");
 
             String option = input.nextLine();
@@ -81,22 +84,25 @@ public class Library implements Serializable {
                     user.showBorrowerLoans(userName);
                     break;
                 case "4":
-                    shelf.showAllBooks();
+                    user.getNumberOfDaysLeftOnLoan(userName);
                     break;
                 case "5":
-                    shelf.showAvailableBooks();
+                    shelf.showAllBooks();
                     break;
                 case "6":
-                    searchOnWriterOrTitle();
+                    shelf.showAvailableBooks();
                     break;
                 case "7":
-                    showSortedListOfWritersOrTitles();
+                    searchOnWriterOrTitle();
                     break;
                 case "8":
+                    showSortedListOfWritersOrTitles();
+                    break;
+                case "9":
                     borrowing = false;
                     break;
                 default:
-                    System.out.println("Enter a number between 1-6");
+                    System.out.println("Enter a number between 1-9");
                     break;
             }
         }
@@ -116,7 +122,7 @@ public class Library implements Serializable {
             System.out.println("4. Show all borrowers");
             System.out.println("5. Search borrower name");
             System.out.println("6. Show borrower's loans");
-            System.out.println("7. Return to main menu");
+            System.out.println("7. Logout");
             System.out.println("--------------------------");
 
             String option = input.nextLine();
@@ -263,6 +269,7 @@ public class Library implements Serializable {
         Borrower borrower = (Borrower) user.getBorrower(name);
         user.showBorrowerLoans(borrower);
     }
+
 
     //******************************
     //Librarian add and remove book

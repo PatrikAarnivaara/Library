@@ -99,7 +99,7 @@ public class User implements Serializable {
                 String password = input.nextLine();
                 if (password != null) {
                     if (user.getPassword().equals(password)) {
-                        System.out.println("Login successful.");
+                        System.out.println("Login successful.\n");
                         return user;
                     }
                 }
@@ -158,6 +158,11 @@ public class User implements Serializable {
         return null;
     }
 
+    void getNumberOfDaysLeftOnLoan(Borrower userName){
+        userName.daysLeftOfLoanPeriod();
+
+    }
+
 
     void showBorrowerLoans(Borrower userName) {
         if (userName != null) {
@@ -166,6 +171,7 @@ public class User implements Serializable {
             System.out.println("No user with that name.");
         }
     }
+
 
     void showAllBorrowers() {
         for (Person borrower : users) {
