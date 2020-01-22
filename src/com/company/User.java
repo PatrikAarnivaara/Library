@@ -138,7 +138,6 @@ public class User implements Serializable {
         }
     }
 
-
     public Person getBorrower(String name) {
         for (Person borrower : users) {
             if (name.equals(borrower.getName())) {
@@ -163,7 +162,6 @@ public class User implements Serializable {
 
     }
 
-
     void showBorrowerLoans(Borrower userName) {
         if (userName != null) {
             userName.showBorrowedBooks(userName.getName());
@@ -171,7 +169,6 @@ public class User implements Serializable {
             System.out.println("No user with that name.");
         }
     }
-
 
     void showAllBorrowers() {
         for (Person borrower : users) {
