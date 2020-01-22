@@ -24,7 +24,10 @@ public class Shelf implements Serializable {
         }
     }
 
-    //Create
+    //***************************************************
+    //Create, add, remove, get, show, sort and find books
+    //***************************************************
+
     void addBooksToShelf() {
         books.add(new Book("The Defenders", "Philip K Dick", "The Defenders is a 1953 science fiction novelette.", Category.FICTION, true, "", ""));
         books.add(new Book("Frankenstein", "Mary Shelley", "When Victor Frankenstein, a brilliant scientist, tries to create life in his laboratory.", Category.FICTION, true,"", ""));
@@ -46,13 +49,11 @@ public class Shelf implements Serializable {
         FileUtility.saveObject("books.ser", books);
     }
 
-    //Add
-    public void addNewBookToShelf(String title, String writer, String description, Category category) {
-        books.add(new Book(title, writer, description, category, true, "", ""));
-        System.out.printf("Book %s has been added to library.\n", title);
+    public void addNewBookToShelf(Book book) {
+        books.add(book);
+        System.out.printf("Book %s has been added to library.\n", book.getTitle());
     }
 
-    //Remove
     public void removeBookFromShelf(String title) {
         int indexOfBookToRemove = getIndexOfBook(title);
         if (indexOfBookToRemove != 0) {
@@ -64,7 +65,24 @@ public class Shelf implements Serializable {
 
     }
 
-    //Show
+    private int getIndexOfBook(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equals(title)) {
+                return books.indexOf(book);
+            }
+        }
+        return 0;
+    }
+
+    public Book getBook(String title) {
+        for (Book book : books) {
+            if (title.equals(book.getTitle()))
+                return book;
+        }
+        System.out.println("No book with that name in library");
+        return null;
+    }
+
     void showAllBooks() {
         for (Book book : books) {
             book.getInfo();
@@ -85,16 +103,6 @@ public class Shelf implements Serializable {
         }
     }
 
-
-    private int getIndexOfBook(String title) {
-        for (Book book : books) {
-            if (book.getTitle().equals(title)) {
-                return books.indexOf(book);
-            }
-        }
-        return 0;
-    }
-
     public Book isBookAvailable(String title) {
         Book book = getBook(title);
         if (book != null) {
@@ -105,17 +113,6 @@ public class Shelf implements Serializable {
         return null;
     }
 
-    public Book getBook(String title) {
-        for (Book book : books) {
-            if (title.equals(book.getTitle()))
-                return book;
-        }
-        System.out.println("No book with that name in library");
-        return null;
-    }
-
-
-    //Sort
     public ArrayList<Book> sortWriters(ArrayList<Book> list) {
         list.sort(sortWriters);
         return list;
@@ -126,7 +123,6 @@ public class Shelf implements Serializable {
         return list;
     }
 
-    //Find
     public Book findWriterByName(String name) {
         ArrayList<Book> writers = sortWriters(books);
         for (Book writer : writers) {
