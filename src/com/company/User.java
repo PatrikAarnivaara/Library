@@ -99,7 +99,7 @@ public class User implements Serializable {
                 String password = input.nextLine();
                 if (password != null) {
                     if (user.getPassword().equals(password)) {
-                        System.out.println("Login successful.");
+                        System.out.println("Login successful.\n");
                         return user;
                     }
                 }

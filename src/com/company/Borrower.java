@@ -19,8 +19,10 @@ public class Borrower extends Person implements Serializable {
         //book.setLoanDate(LocalDate.now().toString());
         //book.setDueDate(LocalDate.now().plusDays(12).toString());
 
-        book.setLoanDate("2020-01-02");//To test method alerting when book is overdue
-        book.setDueDate("2020-01-20");
+        //För att testa metoden som påminner låntagare om försenade böcker.
+        //Hårdkodade datum.
+        book.setLoanDate("2020-01-02");
+        book.setDueDate("2020-01-22");
     }
 
 
@@ -83,37 +85,35 @@ public class Borrower extends Person implements Serializable {
     }
 
     private void showDays(Book book) {
-        LocalDate loanDay = LocalDate.parse(book.getLoanDate());
-        LocalDate dueDay = LocalDate.parse(book.getDueDate());
-        Period period = Period.between(loanDay, dueDay);
-        int numberOfDaysLeft = period.getDays();
-        System.out.printf("%s is due in %d days. \n", book.getTitle(), numberOfDaysLeft);
+        int numberOfDaysLeft = countDays(book);
+        if (numberOfDaysLeft >= 0) {
+            System.out.printf("%s is due in %d days. \n", book.getTitle(), numberOfDaysLeft);
+        } else {
+            System.out.printf("%s is %d days late. \n", book.getTitle(), Math.abs(numberOfDaysLeft));
+        }
     }
 
-    public void alertWhenBookIsOverDue() {
-
-        /*Customer customer = findCustomerByName(name);
-        if (customer!=null){
-            System.out.println("Accounts for "+name+ ":\n-----------");
-            customer.showAccounts();
-        }*/
+    public void showLateBooks() {
 
         for (Book book : loans) {
-            showLateBook(book);
+            alertWhenBookIsOverdue(book);
         }
         System.out.println(" ");
     }
 
-    private void showLateBook(Book book) {
-        LocalDate loanDay = LocalDate.parse(book.getLoanDate());
-        LocalDate dueDay = LocalDate.parse(book.getDueDate());
-        int compareValue = loanDay.compareTo(dueDay);
-        if (compareValue < 0) {
-            System.out.println(" ");
-            System.out.printf("* PLEASE RETURN LATE BOOKS * \n");
-            System.out.printf("Book %s is %d days late. \n", book.getTitle(), Math.abs(compareValue));
+    private void alertWhenBookIsOverdue(Book book) {
+        int numberOfDaysLeft = countDays(book);
+        if (numberOfDaysLeft < 0) {
+            System.out.printf("* Book: %s is %d days late * \n", book.getTitle(), Math.abs(numberOfDaysLeft));
         }
 
+    }
+
+    private int countDays(Book book){
+        LocalDate todayDate = LocalDate.now();
+        LocalDate dueDate = LocalDate.parse(book.getDueDate());
+        Period period = Period.between(todayDate, dueDate);
+        return period.getDays();
     }
 
     @Override
