@@ -54,28 +54,36 @@ public class User implements Serializable {
         System.out.println("Name: ");
         String name = input.nextLine();
 
-        boolean validate = true;
+        boolean validateIdNumber = true;
+        boolean validatePassword = true;
 
-        while (validate) {
+        while (validateIdNumber) {
             System.out.println("Id number: YYMMDDXXXX");
             String idNumber = input.nextLine();
             if (validateIdNumber(idNumber)) {
                 System.out.println("Choose a username: "); //If user name exist, extra function.
                 String userName = input.nextLine();
-                System.out.println("Choose a password");
-                String password = input.nextLine();
-                //if(validatePassword(password)){
-                if (userType.equals("1")) {
-                    users.add(new Borrower(name, idNumber, userName, password));
-                    System.out.println("Your Borrower account is registered.");
-                    validate = false;
-                } else if (userType.equals("2")) {
-                    users.add(new Librarian(name, idNumber, userName, password));
-                    System.out.println("Your Librarian account is registered.");
-                    validate = false;
+                while (validatePassword) {
+                    System.out.println("Password: Abc123");
+                    String password = input.nextLine();
+                    if (validatePassword(password)) {
+                        if (userType.equals("1")) {
+                            users.add(new Borrower(name, idNumber, userName, password));
+                            System.out.println("Your Borrower account is registered.");
+                            validatePassword = false;
+                            validateIdNumber = false;
+                        } else if (userType.equals("2")) {
+                            users.add(new Librarian(name, idNumber, userName, password));
+                            System.out.println("Your Librarian account is registered.");
+                            validatePassword = false;
+                            validateIdNumber = false;
+                        }
+                    } else {
+                        System.out.println("Password must be between 4 and 8 digits long and include at least one numeric digit.");
+                    }
                 }
             } else {
-                System.out.println("Wrong format, try again.");
+                System.out.println("Wrong Id number format, try again.");
             }
         }
     }
@@ -91,7 +99,7 @@ public class User implements Serializable {
                 String password = input.nextLine();
                 if (password != null) {
                     if (user.getPassword().equals(password)) {
-                        System.out.println("Login successful.");
+                        System.out.println("Login successful.\n");
                         return user;
                     }
                 }
@@ -108,11 +116,10 @@ public class User implements Serializable {
         return Pattern.matches(regex, idNumber);
     }
 
-    private boolean validatePassword(String password){
-        String regex = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
-        return Pattern.matches(regex,password);
-        /*1. patrik1A@
-             paTRi12$*/
+    private boolean validatePassword(String password) {
+        String regex = "^(?=.*\\d).{4,8}$"; //Weak password
+        //String regex = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})"; // Strong password
+        return Pattern.matches(regex, password);
     }
 
 
@@ -129,12 +136,6 @@ public class User implements Serializable {
         } else {
             System.out.println("No borrower with that name.");
         }
-    }
-
-    Person checkIfBorrowerIsRegistered() {
-        System.out.println("Name: ");
-        String nameOfBorrower = input.nextLine();
-        return getBorrower(nameOfBorrower);
     }
 
 
@@ -157,6 +158,11 @@ public class User implements Serializable {
         return null;
     }
 
+    void getNumberOfDaysLeftOnLoan(Borrower userName){
+        userName.daysLeftOfLoanPeriod();
+
+    }
+
 
     void showBorrowerLoans(Borrower userName) {
         if (userName != null) {
@@ -165,6 +171,7 @@ public class User implements Serializable {
             System.out.println("No user with that name.");
         }
     }
+
 
     void showAllBorrowers() {
         for (Person borrower : users) {
