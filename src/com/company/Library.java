@@ -92,7 +92,7 @@ public class Library implements Serializable {
                     shelf.showAvailableBooks();
                     break;
                 case "7":
-                    searchOnWriterOrTitle();
+                    searchWriterOrTitle();
                     break;
                 case "8":
                     showSortedListOfWritersOrTitles();
@@ -191,7 +191,7 @@ public class Library implements Serializable {
     //Search writer and title
     //***********************
 
-    private void searchOnWriterOrTitle() {
+    private void searchWriterOrTitle() {
         System.out.println("Search for writer or title");
         System.out.println("1. Writer");
         System.out.println("2. Title");
