@@ -32,10 +32,6 @@ public class Book implements Serializable {
         return writer;
     }
 
-    public String getLoanDate() {
-        return loanDate;
-    }
-
     public String getDueDate() {
         return dueDate;
     }
