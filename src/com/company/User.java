@@ -53,19 +53,23 @@ public class User implements Serializable {
     private void registerUser(String userType) {
         System.out.println("Name: ");
         String name = input.nextLine();
+        verifyUser(name, userType);
+    }
 
-        boolean validateIdNumber = true;
+    //Step 4
+    private void verifyUser(String name, String userType) {
+
         boolean validatePassword = true;
+        boolean validateIdNumber = true;
 
         while (validateIdNumber) {
             System.out.println("Id number: YYMMDDXXXX");
             String idNumber = input.nextLine();
             if (validateIdNumber(idNumber)) {
-                System.out.println("Choose a username: "); //If user name exist, extra function.
+                System.out.println("Choose a username: ");
                 String userName = input.nextLine();
                 while (validatePassword) {
-                    System.out.println("Password: ");
-                    System.out.println("Required. 4-8 characters. Letters and digits only. (aBc123)");
+                    System.out.println("Password: 4-8 characters. Letters and digits only. (aBc1)");
                     String password = input.nextLine();
                     if (validatePassword(password)) {
                         if (userType.equals("1")) {
@@ -87,9 +91,11 @@ public class User implements Serializable {
                 System.out.println("Wrong Id number format, try again.");
             }
         }
+
     }
 
-    //Step 4
+
+    //Step 5
     public Person logInUser() {
         System.out.println("Enter username: ");
         String userNameLogin = input.nextLine();
