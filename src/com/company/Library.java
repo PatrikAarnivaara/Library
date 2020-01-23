@@ -120,7 +120,8 @@ public class Library implements Serializable {
             System.out.println("4. Show all borrowers");
             System.out.println("5. Search borrower name");
             System.out.println("6. Show borrower's loans");
-            System.out.println("7. Logout");
+            System.out.println("7. Show all books");
+            System.out.println("8. Logout");
             System.out.println("--------------------------");
 
             String option = input.nextLine();
@@ -145,10 +146,13 @@ public class Library implements Serializable {
                     showBorrowerLoans();
                     break;
                 case "7":
+                    shelf.showAllBooks();
+                    break;
+                case "8":
                     administrating = false;
                     break;
                 default:
-                    System.out.println("Enter a number between 1-7");
+                    System.out.println("Enter a number between 1-8");
             }
         }
     }
