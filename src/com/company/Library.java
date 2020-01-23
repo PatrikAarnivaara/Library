@@ -152,7 +152,7 @@ public class Library implements Serializable {
                     administrating = false;
                     break;
                 default:
-                    System.out.println("Enter a number between 1-7");
+                    System.out.println("Enter a number between 1-8");
             }
         }
     }

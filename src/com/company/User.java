@@ -64,7 +64,8 @@ public class User implements Serializable {
                 System.out.println("Choose a username: "); //If user name exist, extra function.
                 String userName = input.nextLine();
                 while (validatePassword) {
-                    System.out.println("Password: Abc123");
+                    System.out.println("Password: ");
+                    System.out.println("Required. 4-8 characters. Letters and digits only. (aBc123)");
                     String password = input.nextLine();
                     if (validatePassword(password)) {
                         if (userType.equals("1")) {
