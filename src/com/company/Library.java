@@ -13,10 +13,9 @@ public class Library implements Serializable {
         mainMenu();
     }
 
-
-    //**********************************
-    //Main, borrower and librarian menus
-    //**********************************
+    //*********************************
+    //Main, borrower and librarian menu
+    //*********************************
 
     private void mainMenu() {
         while (true) {
@@ -53,7 +52,7 @@ public class Library implements Serializable {
 
     private void borrowerMenu(Borrower userName) {
 
-        userName.showLateBooks();
+        userName.getLateBooks();
 
         boolean borrowing = true;
 
@@ -93,7 +92,7 @@ public class Library implements Serializable {
                     shelf.showAvailableBooks();
                     break;
                 case "7":
-                    searchOnWriterOrTitle();
+                    searchWriterOrTitle();
                     break;
                 case "8":
                     showSortedListOfWritersOrTitles();
@@ -108,8 +107,7 @@ public class Library implements Serializable {
         }
     }
 
-
-    private void librarianMenu() {
+    private void librarianMenu(Librarian userName) {
 
         boolean administrating = true;
 
@@ -129,10 +127,10 @@ public class Library implements Serializable {
 
             switch (option) {
                 case "1":
-                    addNewBookToLibrary();
+                    addNewBookToLibraryShelf(userName);
                     break;
                 case "2":
-                    removeBookFromLibrary();
+                    removeBookFromLibrary(userName);
                     break;
                 case "3":
                     shelf.showBorrowedBooks();
@@ -160,14 +158,14 @@ public class Library implements Serializable {
         if (userName instanceof Borrower) {
             borrowerMenu((Borrower) userName);
         } else if (userName instanceof Librarian) {
-            librarianMenu();
+            librarianMenu((Librarian) userName);
         }
 
     }
 
-    //******************************
+    //**********************
     //Borrow and return book
-    //******************************
+    //**********************
 
     private void borrowBook(Borrower username) {
         System.out.println("Enter name of book to loan:");
@@ -177,7 +175,6 @@ public class Library implements Serializable {
             username.loanBookFromLibrary(book);
             System.out.printf("Book: %s loaned.\n", book.getTitle());
         }
-
     }
 
     private void returnBook(Borrower username) {
@@ -190,11 +187,11 @@ public class Library implements Serializable {
         }
     }
 
-    //******************************
-    //Search user, writer and title
-    //******************************
+    //***********************
+    //Search writer and title
+    //***********************
 
-    private void searchOnWriterOrTitle() {
+    private void searchWriterOrTitle() {
         System.out.println("Search for writer or title");
         System.out.println("1. Writer");
         System.out.println("2. Title");
@@ -262,6 +259,10 @@ public class Library implements Serializable {
         }
     }
 
+    //********************************
+    //Show loans, add and remove book
+    //********************************
+
     private void showBorrowerLoans() {
         System.out.println("Enter name of borrower");
         String name = input.nextLine();
@@ -269,37 +270,13 @@ public class Library implements Serializable {
         user.showBorrowerLoans(borrower);
     }
 
-
-    //******************************
-    //Librarian add and remove book
-    //******************************
-
-    private void addNewBookToLibrary() {
-
-        boolean adding = true;
-
-        System.out.println("Title: ");
-        String title = input.nextLine();
-        System.out.println("Writer: ");
-        String writer = input.nextLine();
-        System.out.println("Description: ");
-        String description = input.nextLine();
-        while (adding) {
-            try {
-                System.out.println("Category: ");
-                String categoryInput = input.nextLine();
-                Category category = Category.valueOf(categoryInput.toUpperCase());
-                shelf.addNewBookToShelf(title, writer, description, category);
-                adding = false;
-            } catch (Exception e) {
-                System.out.println("No such category in library system, try again.");
-            }
-        }
+    private void addNewBookToLibraryShelf(Librarian userName) {
+        Book book = userName.addNewBookToLibrary();
+        shelf.addNewBookToShelf(book);
     }
 
-    private void removeBookFromLibrary() {
-        System.out.println("Title of book to remove: ");
-        String titleOfBookToRemove = input.nextLine();
+    private void removeBookFromLibrary(Librarian userName) {
+        String titleOfBookToRemove = userName.removeBookFromLibrary();
         shelf.removeBookFromShelf(titleOfBookToRemove);
     }
 

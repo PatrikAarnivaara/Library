@@ -13,18 +13,22 @@ public class Borrower extends Person implements Serializable {
         super(name, idNumber, userName, password);
     }
 
+    //****************************************
+    //Borrower loan, return and status of book
+    //****************************************
+
     public void loanBookFromLibrary(Book book) {
         loans.add(book);
         book.setAvailable(false);
-        //book.setLoanDate(LocalDate.now().toString());
-        //book.setDueDate(LocalDate.now().plusDays(12).toString());
 
-        // Hårdkodade datum för att testa metoden som påminner
-        // låntagare om försenade böcker.
+        // De hårdkodade datumen är endast för att testa/visa att metoden som påminner
+        // låntagaren om försenade böcker fungerar. De två andra är API-klasser för dagen
+        // när boken lånas som sparas och återlämningsdatumet som är 12 dagar senare.
         book.setLoanDate("2020-01-02");
         book.setDueDate("2020-01-22");
+        //book.setLoanDate(LocalDate.now().toString());
+        //book.setDueDate(LocalDate.now().plusDays(12).toString());
     }
-
 
     public void returnBookToLibrary(String title) {
         Book bookReturned = getBorrowedBook(title);
@@ -68,23 +72,22 @@ public class Borrower extends Person implements Serializable {
         System.out.println(" ");
     }
 
-
     public void showBorrowedBooks(String name) {
         System.out.println("Loaned books by " + name + ": ");
         getBorrowedBooks();
 
     }
 
-    public void daysLeftOfLoanPeriod() {
+    public void getDaysLeftOfLoanPeriod() {
         System.out.println("Loans: ");
         for (Book book : loans) {
-            showDays(book);
+            showLeftOfLoanPeriod(book);
         }
         System.out.println(" ");
 
     }
 
-    private void showDays(Book book) {
+    private void showLeftOfLoanPeriod(Book book) {
         int numberOfDaysLeft = countDays(book);
         if (numberOfDaysLeft == 0) {
             System.out.printf("%s is due today. \n", book.getTitle());
@@ -95,19 +98,18 @@ public class Borrower extends Person implements Serializable {
         }
     }
 
-    public void showLateBooks() {
+    public void getLateBooks() {
         for (Book book : loans) {
-            alertWhenBookIsOverdue(book);
+            alertWhenBookIsLate(book);
         }
         System.out.println(" ");
     }
 
-    private void alertWhenBookIsOverdue(Book book) {
+    private void alertWhenBookIsLate(Book book) {
         int numberOfDaysLeft = countDays(book);
         if (numberOfDaysLeft < 0) {
             System.out.printf("* Book: %s is %d days late * \n", book.getTitle(), Math.abs(numberOfDaysLeft));
         }
-
     }
 
     private int countDays(Book book) {

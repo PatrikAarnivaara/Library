@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class User implements Serializable {
 
-    Scanner input = new Scanner(System.in);
+    transient Scanner input = new Scanner(System.in);
     private ArrayList<Person> users = new ArrayList<>();
 
     public User() {
@@ -124,7 +124,7 @@ public class User implements Serializable {
 
 
     //******************************
-    //Get and show user
+    //Get, show and search user
     //******************************
 
     public void searchBorrowerWithName() {
@@ -147,7 +147,6 @@ public class User implements Serializable {
         return null;
     }
 
-
     public Person getUserName(String userName) {
         for (Person user : users) {
             if (userName.equals(user.getUserName())) {
@@ -157,8 +156,8 @@ public class User implements Serializable {
         return null;
     }
 
-    void getNumberOfDaysLeftOnLoan(Borrower userName){
-        userName.daysLeftOfLoanPeriod();
+    void getNumberOfDaysLeftOnLoan(Borrower userName) {
+        userName.getDaysLeftOfLoanPeriod();
 
     }
 
