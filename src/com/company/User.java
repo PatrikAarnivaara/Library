@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class User implements Serializable {
 
-    Scanner input = new Scanner(System.in);
+    transient Scanner input = new Scanner(System.in);
     private ArrayList<Person> users = new ArrayList<>();
 
     public User() {
@@ -53,18 +53,23 @@ public class User implements Serializable {
     private void registerUser(String userType) {
         System.out.println("Name: ");
         String name = input.nextLine();
+        verifyUser(name, userType);
+    }
 
-        boolean validateIdNumber = true;
+    //Step 4
+    private void verifyUser(String name, String userType) {
+
         boolean validatePassword = true;
+        boolean validateIdNumber = true;
 
         while (validateIdNumber) {
             System.out.println("Id number: YYMMDDXXXX");
             String idNumber = input.nextLine();
             if (validateIdNumber(idNumber)) {
-                System.out.println("Choose a username: "); //If user name exist, extra function.
+                System.out.println("Choose a username: ");
                 String userName = input.nextLine();
                 while (validatePassword) {
-                    System.out.println("Password: Abc123");
+                    System.out.println("Password: 4-8 characters. Letters and digits only. (aBc1)");
                     String password = input.nextLine();
                     if (validatePassword(password)) {
                         if (userType.equals("1")) {
@@ -86,9 +91,11 @@ public class User implements Serializable {
                 System.out.println("Wrong Id number format, try again.");
             }
         }
+
     }
 
-    //Step 4
+
+    //Step 5
     public Person logInUser() {
         System.out.println("Enter username: ");
         String userNameLogin = input.nextLine();
@@ -124,7 +131,7 @@ public class User implements Serializable {
 
 
     //******************************
-    //Get and show user
+    //Get, show and search user
     //******************************
 
     public void searchBorrowerWithName() {
@@ -138,7 +145,6 @@ public class User implements Serializable {
         }
     }
 
-
     public Person getBorrower(String name) {
         for (Person borrower : users) {
             if (name.equals(borrower.getName())) {
@@ -147,7 +153,6 @@ public class User implements Serializable {
         }
         return null;
     }
-
 
     public Person getUserName(String userName) {
         for (Person user : users) {
@@ -158,11 +163,10 @@ public class User implements Serializable {
         return null;
     }
 
-    void getNumberOfDaysLeftOnLoan(Borrower userName){
-        userName.daysLeftOfLoanPeriod();
+    void getNumberOfDaysLeftOnLoan(Borrower userName) {
+        userName.getDaysLeftOfLoanPeriod();
 
     }
-
 
     void showBorrowerLoans(Borrower userName) {
         if (userName != null) {
@@ -171,7 +175,6 @@ public class User implements Serializable {
             System.out.println("No user with that name.");
         }
     }
-
 
     void showAllBorrowers() {
         for (Person borrower : users) {
