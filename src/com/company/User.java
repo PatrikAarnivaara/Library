@@ -147,7 +147,7 @@ public class User implements Serializable {
 
     public Person getBorrower(String name) {
         for (Person borrower : users) {
-            if (name.equals(borrower.getName())) {
+            if (name.equalsIgnoreCase(borrower.getName())) {
                 return borrower;
             }
         }

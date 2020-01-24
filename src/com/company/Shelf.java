@@ -1,10 +1,8 @@
 package com.company;
 
-import java.io.File;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -67,7 +65,7 @@ public class Shelf implements Serializable {
 
     private int getIndexOfBook(String title) {
         for (Book book : books) {
-            if (book.getTitle().equals(title)) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
                 return books.indexOf(book);
             }
         }
@@ -76,7 +74,7 @@ public class Shelf implements Serializable {
 
     public Book getBook(String title) {
         for (Book book : books) {
-            if (title.equals(book.getTitle()))
+            if (title.equalsIgnoreCase(book.getTitle()))
                 return book;
         }
         System.out.println("No book with that name in library");
@@ -110,6 +108,7 @@ public class Shelf implements Serializable {
                 return book;
             }
         }
+        System.out.println("Not available");
         return null;
     }
 
