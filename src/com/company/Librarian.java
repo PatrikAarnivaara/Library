@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 public class Librarian extends Person implements Serializable {
 
-    transient Scanner input = new Scanner(System.in);
 
     public Librarian(String name, String idNumber, String userName, String password) {
         super(name, idNumber, userName, password);
@@ -16,10 +15,13 @@ public class Librarian extends Person implements Serializable {
     //******************************
 
     Book addNewBookToLibrary() {
+        Scanner input = new Scanner(System.in);
         System.out.println("Title: ");
         String title = input.nextLine();
+        String titleCapFirstLetter = title.substring(0, 1).toUpperCase() + title.substring(1);
         System.out.println("Writer: ");
         String writer = input.nextLine();
+        String writerCapFirstLetter = writer.substring(0, 1).toUpperCase() + writer.substring(1);
         System.out.println("Description: ");
         String description = input.nextLine();
         while (true) {
@@ -27,14 +29,15 @@ public class Librarian extends Person implements Serializable {
                 System.out.println("Category: ");
                 String categoryInput = input.nextLine();
                 Category category = Category.valueOf(categoryInput.toUpperCase());
-                return new Book(title, writer, description, category, true, "", "");
+                return new Book(titleCapFirstLetter, writerCapFirstLetter, description, category, true, "", "");
             } catch (Exception e) {
-                System.out.println("No such category in library system, try again.");
+                System.out.println("No such category in library system, try again.\n");
             }
         }
     }
 
     public String removeBookFromLibrary() {
+        Scanner input = new Scanner(System.in);
         System.out.println("Title of book to remove: ");
         return input.nextLine();
     }

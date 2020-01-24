@@ -174,10 +174,14 @@ public class Library implements Serializable {
     private void borrowBook(Borrower username) {
         System.out.println("Enter name of book to loan:");
         String titleOfBook = input.nextLine();
-        Book book = shelf.isBookAvailable(titleOfBook);
-        if (book != null) {
-            username.loanBookFromLibrary(book);
-            System.out.printf("Book: %s loaned.\n", book.getTitle());
+        Book bookInLibraryConfirm = shelf.getBook(titleOfBook);
+
+        if (bookInLibraryConfirm != null) {
+            Book book = shelf.isBookAvailable(titleOfBook);
+            if (book != null) {
+                username.loanBookFromLibrary(book);
+                System.out.printf("Book: %s loaned.\n", book.getTitle());
+            }
         }
     }
 
@@ -187,7 +191,7 @@ public class Library implements Serializable {
             String itemToReturn = input.nextLine();
             username.returnBookToLibrary(itemToReturn);
         } else {
-            System.out.println("No borrower with that name.");
+            System.out.println("No borrower with that name.\n");
         }
     }
 
@@ -223,7 +227,7 @@ public class Library implements Serializable {
                 book.getInfo();
             }
         } catch (Exception e) {
-            System.out.println("Try again, only characters.");
+            System.out.println("Try again, only characters.\n");
         }
 
     }
@@ -237,13 +241,13 @@ public class Library implements Serializable {
                 book.getInfo();
             }
         } catch (Exception e) {
-            System.out.println("Try again, only characters.");
+            System.out.println("Try again, only characters.\n");
         }
 
     }
 
     private void showSortedListOfWritersOrTitles() {
-        System.out.println("Show list of writer or title");
+        System.out.println("Sort list of writer or title");
         System.out.println("1. Writer");
         System.out.println("2. Title");
         String option = input.nextLine();

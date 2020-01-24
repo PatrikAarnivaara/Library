@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Borrower extends Person implements Serializable {
 
@@ -18,16 +19,32 @@ public class Borrower extends Person implements Serializable {
     //****************************************
 
     public void loanBookFromLibrary(Book book) {
-        loans.add(book);
-        book.setAvailable(false);
 
-        // De hårdkodade datumen är endast för att testa/visa att metoden som påminner
-        // låntagaren om försenade böcker fungerar. De två andra API metoderna hämtar
-        // dagens datum och datumet om 12 dagar.
-        book.setLoanDate("2020-01-02");
-        book.setDueDate("2020-01-22");
-        //book.setLoanDate(LocalDate.now().toString());
-        //book.setDueDate(LocalDate.now().plusDays(12).toString());
+        System.out.println("---Select option 2 to test late book alert method---");
+        System.out.println("1. Loan date: today's date, Due date: 14 days");
+        System.out.println("2. Loan date: 2020-01-02, Due date: 2020-01-20 ");
+
+        Scanner input = new Scanner(System.in);
+        String option = input.nextLine();
+
+        switch (option) {
+            case "1":
+                book.setLoanDate(LocalDate.now().toString());
+                book.setDueDate(LocalDate.now().plusDays(14).toString());
+                loans.add(book);
+                book.setAvailable(false);
+                break;
+            case "2":
+                book.setLoanDate("2020-01-02");
+                book.setDueDate("2020-01-22");
+                loans.add(book);
+                book.setAvailable(false);
+                break;
+            default:
+                System.out.println("Select option 1 or 2");
+                break;
+        }
+
     }
 
     public void returnBookToLibrary(String title) {
@@ -40,13 +57,13 @@ public class Borrower extends Person implements Serializable {
             bookReturned.setDueDate("");
             System.out.println("Book returned.");
         } else {
-            System.out.println("Incorrect title, try again.");
+            System.out.println("Incorrect title, try again.\n");
         }
     }
 
     private Book getBorrowedBook(String title) {
         for (Book book : loans) {
-            if (book.getTitle().equals(title)) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
                 return book;
             }
         }
@@ -56,7 +73,7 @@ public class Borrower extends Person implements Serializable {
     private int getIndexOfBook(String title) {
         if (title != null)
             for (Book book : loans) {
-                if (book.getTitle().equals(title)) {
+                if (book.getTitle().equalsIgnoreCase(title)) {
                     return loans.indexOf(book);
                 }
             }
@@ -94,7 +111,7 @@ public class Borrower extends Person implements Serializable {
         } else if (numberOfDaysLeft >= 0) {
             System.out.printf("%s is due in %d days. \n", book.getTitle(), numberOfDaysLeft);
         } else {
-            System.out.printf("%s is %d days late. \n", book.getTitle(), Math.abs(numberOfDaysLeft));
+            System.out.printf("%s is *%d* days late. \n", book.getTitle(), Math.abs(numberOfDaysLeft));
         }
     }
 
