@@ -61,34 +61,42 @@ public class User implements Serializable {
 
         boolean validatePassword = true;
         boolean validateIdNumber = true;
+        boolean validateUserName = true;
 
         while (validateIdNumber) {
             System.out.println("Id number: YYMMDDXXXX");
             String idNumber = input.nextLine();
             if (validateIdNumber(idNumber)) {
-                System.out.println("Choose a username: ");
-                String userName = input.nextLine();
-                while (validatePassword) {
-                    System.out.println("Password: 4-8 characters. Letters and digits only. (aBc1)");
-                    String password = input.nextLine();
-                    if (validatePassword(password)) {
-                        if (userType.equals("1")) {
-                            users.add(new Borrower(name, idNumber, userName, password));
-                            System.out.println("Your Borrower account is registered.");
-                            validatePassword = false;
-                            validateIdNumber = false;
-                        } else if (userType.equals("2")) {
-                            users.add(new Librarian(name, idNumber, userName, password));
-                            System.out.println("Your Librarian account is registered.");
-                            validatePassword = false;
-                            validateIdNumber = false;
+                while (validateUserName) {
+                    System.out.println("Choose a username: ");
+                    String userName = input.nextLine();
+                    Person checkUserNameExist = getUserName(userName);
+                    if (!userName.equals(checkUserNameExist.getUserName())) {
+                        while (validatePassword) {
+                            System.out.println("Password: 4-8 characters. Letters and digits only. (aBc1)");
+                            String password = input.nextLine();
+                            if (validatePassword(password)) {
+                                if (userType.equals("1")) {
+                                    users.add(new Borrower(name, idNumber, userName, password));
+                                    System.out.println("Your Borrower account is registered.");
+                                    validatePassword = false;
+                                    validateIdNumber = false;
+                                } else if (userType.equals("2")) {
+                                    users.add(new Librarian(name, idNumber, userName, password));
+                                    System.out.println("Your Librarian account is registered.");
+                                    validatePassword = false;
+                                    validateIdNumber = false;
+                                }
+                            } else {
+                                System.out.println("Password must be between 4 and 8 digits long and include at least one numeric digit.\n");
+                            }
                         }
                     } else {
-                        System.out.println("Password must be between 4 and 8 digits long and include at least one numeric digit.");
+                        System.out.println("Username exist, try again.\n");
                     }
                 }
             } else {
-                System.out.println("Wrong Id number format, try again.");
+                System.out.println("Wrong Id number format, try again.\n");
             }
         }
 
@@ -147,9 +155,10 @@ public class User implements Serializable {
 
     public Person getBorrower(String name) {
         for (Person borrower : users) {
-            if (name.equalsIgnoreCase(borrower.getName())) {
-                return borrower;
-            }
+            if (borrower instanceof Borrower)
+                if (name.equalsIgnoreCase(borrower.getName())) {
+                    return borrower;
+                }
         }
         return null;
     }

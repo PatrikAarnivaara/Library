@@ -57,7 +57,7 @@ public class Borrower extends Person implements Serializable {
             bookReturned.setDueDate("");
             System.out.println("Book returned.");
         } else {
-            System.out.println("Incorrect title, try again.");
+            System.out.println("Incorrect title, try again.\n");
         }
     }
 
