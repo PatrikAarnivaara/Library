@@ -21,13 +21,16 @@ public class Borrower extends Person implements Serializable {
         loans.add(book);
         book.setAvailable(false);
 
-        // De hårdkodade datumen är endast för att testa/visa att metoden som påminner
-        // låntagaren om försenade böcker fungerar. De två andra API metoderna hämtar
-        // dagens datum och datumet om 12 dagar.
-        book.setLoanDate("2020-01-02");
-        book.setDueDate("2020-01-22");
-        //book.setLoanDate(LocalDate.now().toString());
-        //book.setDueDate(LocalDate.now().plusDays(12).toString());
+        // ***************************************************************************
+        // Hårdkodade datum är endast för att visa att metoden som påminner
+        // låntagare om försenade böcker fungerar.
+        // API metoderna hämtar dagens datum och datumet om 14 dagar från lånedatumet.
+        // ***************************************************************************
+        //book.setLoanDate("2020-01-02");
+        //book.setDueDate("2020-01-22");
+
+        book.setLoanDate(LocalDate.now().toString());
+        book.setDueDate(LocalDate.now().plusDays(14).toString());
     }
 
     public void returnBookToLibrary(String title) {
