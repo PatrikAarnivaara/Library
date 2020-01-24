@@ -3,8 +3,10 @@ package com.company;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.file.*;
-import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 public class FileUtility {
 
@@ -27,22 +29,4 @@ public class FileUtility {
         return null;
     }
 
-    public static void saveText(String filename, List<String> list, StandardOpenOption... option) {
-        Path path = Paths.get(filename);
-        try {
-            Files.write(path, list, option);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static List<String> loadText(String filename) {
-        Path path = Paths.get(filename);
-        try {
-            return Files.readAllLines(path);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }
