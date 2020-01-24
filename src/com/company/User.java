@@ -71,7 +71,7 @@ public class User implements Serializable {
                     System.out.println("Choose a username: ");
                     String userName = input.nextLine();
                     Person checkUserNameExist = getUserName(userName);
-                    if (!userName.equals(checkUserNameExist.getUserName())) {
+                    if (checkUserNameExist == null) {
                         while (validatePassword) {
                             System.out.println("Password: 4-8 characters. Letters and digits only. (aBc1)");
                             String password = input.nextLine();
@@ -79,11 +79,13 @@ public class User implements Serializable {
                                 if (userType.equals("1")) {
                                     users.add(new Borrower(name, idNumber, userName, password));
                                     System.out.println("Your Borrower account is registered.");
+                                    validateUserName = false;
                                     validatePassword = false;
                                     validateIdNumber = false;
                                 } else if (userType.equals("2")) {
                                     users.add(new Librarian(name, idNumber, userName, password));
                                     System.out.println("Your Librarian account is registered.");
+                                    validateUserName = false;
                                     validatePassword = false;
                                     validateIdNumber = false;
                                 }
