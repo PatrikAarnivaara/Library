@@ -188,12 +188,12 @@ public class User implements Serializable {
     }
 
     void showAllBorrowers() {
+        System.out.println("Borrowers: \n");
         for (Person borrower : users) {
             if (borrower instanceof Borrower) {
                 borrower.getInfo();
             }
         }
-
     }
 
     public ArrayList<Person> getUsers() {
