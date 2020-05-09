@@ -28,7 +28,7 @@ Show examples of usage:
 * Login
 * Borrow and return books
 * Admin can add and remove books
-* User is alerted if book is late
+* User is alerted if book is late or soon to be due
 
 ## Status
 Project is: _finished_
